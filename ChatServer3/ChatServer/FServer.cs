@@ -257,5 +257,12 @@ namespace ChatServer
         {
             txtMsg.Text = "";
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (txtMsg.Text == "") return;
+            Clipboard.SetDataObject(txtMsg.Text);
+            MessageBox.Show("文本内容已复制到剪切板！");
+        }
     }
 }
