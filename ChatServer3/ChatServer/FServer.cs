@@ -24,7 +24,7 @@ namespace ChatServer
         Socket socketWatch = null;
 
         public const int SendBufferSize = 2 * 1024;
-        public const int ReceiveBufferSize = 1024 * 1024;
+        public const int ReceiveBufferSize = 1 * 1024;
 
 
         private void btnStartService_Click(object sender, EventArgs e) 
