@@ -27,7 +27,7 @@ namespace ChatServer
         public const int ReceiveBufferSize = 1024 * 1024;
 
 
-        private void btnStartService_Click(object sender, EventArgs e)
+        private void btnStartService_Click(object sender, EventArgs e) 
         {
             //定义一个套接字用于监听客户端发来的信息  包含3个参数(IP4寻址协议,流式连接,TCP协议)
             socketWatch = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -148,7 +148,7 @@ namespace ChatServer
             }
         }
 
-        string strSRecMsg = null;
+        string strSRecMsg = "";
         /// <summary>
         /// 接收客户端发来的信息
         /// </summary>
@@ -169,10 +169,21 @@ namespace ChatServer
 
                     if (firstReceived > 0) //接受到的长度大于0 说明有信息或文件传来
                     {
-                        strSRecMsg = Encoding.UTF8.GetString(buffer, 0, firstReceived);//真实有用的文本信息要比接收到的少1(标识符)
+                        //strSRecMsg = Encoding.UTF8.GetString(buffer, 0, firstReceived);//真实有用的文本信息要比接收到的少1(标识符),此方法乱码
+                        strSRecMsg = ExplainUtils.convertStrMsg(buffer);
                         txtMsg.AppendText("" + GetCurrentTime() + "收到客户端信息:\r\n" + strSRecMsg + "\r\n");
                         //receiveFilter.processMatchedRequest(buffer, 0, firstReceived);
-                        ServerSendMsgAuto(clientIp);
+                        //客户端消息应答
+                        //校验消息是否正确
+                        if (!ExplainUtils.msgValid(ExplainUtils.strToToHexByte(strSRecMsg))) break;
+                        Console.WriteLine("received:{0}", strSRecMsg);
+                        byte[] bytes = ExplainUtils.HexSpaceStringToByteArray(strSRecMsg);
+                        int msgBodyProps = ExplainUtils.ParseIntFromBytes(bytes, 2 + 1, 2);
+                        string terminalPhone = (ExplainUtils.ParseBcdStringFromBytes(bytes, 4 + 1, 6));
+                        int flowId = ExplainUtils.ParseIntFromBytes(bytes, 10 + 1, 2);
+                        //客户端消息应答
+                        ServerSendMsgAuto(clientIp, msgBodyProps, terminalPhone, flowId);
+
                     }
                 }
                 catch (Exception ex)
@@ -189,18 +200,17 @@ namespace ChatServer
 
 
         /// <summary>
-        /// 自动回复信息到客户端的方法
+        /// 自动回复信息到客户端的方法,设备注册消息应答测试
         /// </summary>
         /// <param name="clientIp">发送的客户端ip地址</param>
-        private void ServerSendMsgAuto(string clientIp)
+        private void ServerSendMsgAuto(string clientIp,int msgBodyProps, string phone, int flowId)
         {
-            string sendMsg = "7E00007E";
             //将输入的字符串转换成 机器可以识别的字节数组
-            byte[] arrSendMsg = Encoding.UTF8.GetBytes(sendMsg);
+            byte[] arrSendMsg = ExplainUtils.rtnRespMsg(msgBodyProps, phone, flowId);
             //向客户端发送字节数组信息
             dicSocket[clientIp].Send(arrSendMsg);
             //将发送的字符串信息附加到文本框txtMsg上
-            txtMsg.AppendText("" + GetCurrentTime() + "向客户端<" + clientIp + ">回执:\r\n" + sendMsg + "\r\n");
+            txtMsg.AppendText("" + GetCurrentTime() + "向客户端<" + clientIp + ">回执:\r\n" + ExplainUtils.convertStrMsg(arrSendMsg) + "\r\n");
 
         }
 
