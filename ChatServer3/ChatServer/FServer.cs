@@ -178,11 +178,12 @@ namespace ChatServer
                         if (!ExplainUtils.msgValid(ExplainUtils.strToToHexByte(strSRecMsg))) break;
                         Console.WriteLine("received:{0}", strSRecMsg);
                         byte[] bytes = ExplainUtils.HexSpaceStringToByteArray(strSRecMsg);
-                        int msgBodyProps = ExplainUtils.ParseIntFromBytes(bytes, 2 + 1, 2);
-                        string terminalPhone = (ExplainUtils.ParseBcdStringFromBytes(bytes, 4 + 1, 6));
-                        int flowId = ExplainUtils.ParseIntFromBytes(bytes, 10 + 1, 2);
+                        int msgId = ExplainUtils.ParseIntFromBytes(bytes, 0 + 1, 2);    //消息id
+                        int msgBodyProps = ExplainUtils.ParseIntFromBytes(bytes, 2 + 1, 2); //消息体属性
+                        string terminalPhone = (ExplainUtils.ParseBcdStringFromBytes(bytes, 4 + 1, 6)); //手机号码
+                        int flowId = ExplainUtils.ParseIntFromBytes(bytes, 10 + 1, 2);  //流水号
                         //客户端消息应答
-                        ServerSendMsgAuto(clientIp, msgBodyProps, terminalPhone, flowId);
+                        ServerSendMsgAuto(clientIp, msgId,msgBodyProps, terminalPhone, flowId);
 
                     }
                 }
@@ -203,10 +204,10 @@ namespace ChatServer
         /// 自动回复信息到客户端的方法,设备注册消息应答测试
         /// </summary>
         /// <param name="clientIp">发送的客户端ip地址</param>
-        private void ServerSendMsgAuto(string clientIp,int msgBodyProps, string phone, int flowId)
+        private void ServerSendMsgAuto(string clientIp,int msgId,int msgBodyProps, string phone, int flowId)
         {
             //将输入的字符串转换成 机器可以识别的字节数组
-            byte[] arrSendMsg = ExplainUtils.rtnRespMsg(msgBodyProps, phone, flowId);
+            byte[] arrSendMsg = ExplainUtils.rtnRespMsg(msgId,msgBodyProps, phone, flowId);
             //向客户端发送字节数组信息
             dicSocket[clientIp].Send(arrSendMsg);
             //将发送的字符串信息附加到文本框txtMsg上
