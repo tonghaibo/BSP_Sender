@@ -33,14 +33,20 @@ namespace ChatServer
             socketWatch = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //发送信息 需要1个IP地址和端口号
             //获取服务端IPv4地址
-            IPAddress ipAddress = GetLocalIPv4Address();
-            lblIP.Text = ipAddress.ToString();
+            //string ip = "106.14.97.98";
+            long ipInt = IpToInt(ip.Text.Trim());
+
+            //使用long ulong int 会溢出，使用uint就没问题
+            uint netInt = (uint)IPAddress.HostToNetworkOrder((Int32)ipInt);
+            //IPAddress ipAddress = GetLocalIPv4Address();
+            IPAddress ipAddress = new IPAddress((long)netInt);
+            //lblIP.Text = ipAddress.ToString();
             //给服务端赋予一个端口号
-            int port = 8088;
-            lblPort.Text = port.ToString();
+            int ipPort = int.Parse(port.Text.Trim().ToString());
+            //lblPort.Text = port.ToString();
 
             //将IP地址和端口号绑定到网络节点endpoint上 
-            IPEndPoint endpoint = new IPEndPoint(ipAddress, port);
+            IPEndPoint endpoint = new IPEndPoint(ipAddress, ipPort);
             //将负责监听的套接字绑定网络端点
             socketWatch.Bind(endpoint);
             //将套接字的监听队列长度设置为20
@@ -53,6 +59,28 @@ namespace ChatServer
             threadWatch.Start();
             txtMsg.AppendText("服务器已经启动,开始监听客户端传来的信息!" + "\r\n");
             btnStartService.Enabled = false;
+        }
+
+        //ip转int
+        public static long IpToInt(string ip)
+        {
+            char[] separator = new char[] { '.' };
+            string[] items = ip.Split(separator);
+            return long.Parse(items[0]) << 24
+                    | long.Parse(items[1]) << 16
+                    | long.Parse(items[2]) << 8
+                    | long.Parse(items[3]);
+        }
+
+        //int转ip
+        public static string IntToIp(long ipInt)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append((ipInt >> 24) & 0xFF).Append(".");
+            sb.Append((ipInt >> 16) & 0xFF).Append(".");
+            sb.Append((ipInt >> 8) & 0xFF).Append(".");
+            sb.Append(ipInt & 0xFF);
+            return sb.ToString();
         }
 
         /// <summary>
@@ -264,6 +292,11 @@ namespace ChatServer
             if (txtMsg.Text == "") return;
             Clipboard.SetDataObject(txtMsg.Text);
             MessageBox.Show("文本内容已复制到剪切板！");
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -45,6 +45,8 @@
             this.btnClearSelectedState = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.ip = new System.Windows.Forms.TextBox();
+            this.port = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -152,6 +154,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.port);
+            this.groupBox1.Controls.Add(this.ip);
             this.groupBox1.Controls.Add(this.lblPort);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
@@ -162,6 +166,7 @@
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "服务端";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // lblPort
             // 
@@ -213,6 +218,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // ip
+            // 
+            this.ip.Location = new System.Drawing.Point(35, 12);
+            this.ip.Name = "ip";
+            this.ip.Size = new System.Drawing.Size(111, 21);
+            this.ip.TabIndex = 34;
+            this.ip.Text = "106.14.97.98";
+            // 
+            // port
+            // 
+            this.port.Location = new System.Drawing.Point(35, 38);
+            this.port.Name = "port";
+            this.port.Size = new System.Drawing.Size(111, 21);
+            this.port.TabIndex = 34;
+            this.port.Text = "10002";
+            // 
             // FServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -258,6 +279,8 @@
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox port;
+        private System.Windows.Forms.TextBox ip;
     }
 }
 
