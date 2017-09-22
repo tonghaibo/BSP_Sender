@@ -1,0 +1,11 @@
+
+ 
+记录时间：2017-09-22 14:04:37,863 
+线程ID:[6] 
+日志级别：  ERROR 
+出错类：ChatServer.FServer property: [(null)] - 
+错误描述：Error
+ 
+System.Net.Sockets.SocketException (0x80004005): 您的主机中的软件中止了一个已建立的连接。
+   在 System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   在 ChatServer.FServer.ServerRecMsg(IAsyncResult ar) 位置 C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\FServer.cs:行号 125
