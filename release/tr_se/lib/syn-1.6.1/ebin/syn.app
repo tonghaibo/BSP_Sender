@@ -1,0 +1,12 @@
+{application,syn,
+             [{description,"A global Process Registry and Process Group manager."},
+              {vsn,"1.6.1"},
+              {registered,[syn_consistency,syn_groups,syn_registry,syn_sup]},
+              {applications,[kernel,stdlib,mnesia]},
+              {mod,{syn_app,[]}},
+              {env,[]},
+              {maintainers,["Roberto Ostinelli"]},
+              {licenses,["MIT"]},
+              {links,[{"Github","https://github.com/ostinelli/syn"}]},
+              {modules,[syn,syn_app,syn_backbone,syn_consistency,syn_groups,
+                        syn_registry,syn_sup,syn_utils]}]}.

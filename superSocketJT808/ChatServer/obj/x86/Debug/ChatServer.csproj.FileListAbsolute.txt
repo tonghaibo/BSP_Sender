@@ -82,3 +82,14 @@ E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Deb
 E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.pdb
 E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\ChatServer.pdb
 E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\bin\Debug\ChatServer.exe.config
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.exe
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.pdb
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\bin\Debug\Config\log4net.config
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\bin\Debug\Config\log4net.unix.config
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\bin\Debug\ChatServer.exe
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\bin\Debug\ChatServer.pdb
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
