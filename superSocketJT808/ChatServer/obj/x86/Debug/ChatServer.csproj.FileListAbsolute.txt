@@ -1,0 +1,84 @@
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\bin\Debug\ChatServer.exe
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\bin\Debug\ChatServer.pdb
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\ChatServer.exe
+C:\Documents and Settings\Administrator\桌面\聊天程序-支持文件发送\ChatServer\ChatServer\obj\x86\Debug\ChatServer.pdb
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.exe
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.pdb
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\bin\Debug\ChatServer.exe
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\bin\Debug\ChatServer.pdb
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\Administrator\桌面\ChatServer2\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\bin\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\bin\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现二[文件发送]\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\bin\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\bin\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer2\ChatServer\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\bin\Debug\ChatServer.exe
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\bin\Debug\ChatServer.pdb
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
+D:\study\博客园cnblogs\博客日志\C#日志\基于C# winform的简易聊天程序的实现三[信息群发]\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.exe
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.pdb
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\bin\Debug\ChatServer.exe
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\bin\Debug\ChatServer.pdb
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\bin\Debug\ChatServer.exe.config
+C:\Users\Administrator\Desktop\C# Client\ChatServer3\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.exe
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.pdb
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\ChatServer.exe
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\ChatServer.pdb
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.Common.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.Facility.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.SocketBase.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.WebSocket.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.Common.xml
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.Facility.xml
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\SuperSocket.SocketBase.xml
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\System.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\log4net.dll
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\log4net.xml
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\Config\log4net.config
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\bin\Debug\Config\log4net.unix.config
+D:\我的文档\Documents\Visual Studio 2015\Projects\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\ChatServer.exe
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\Config\log4net.config
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\Config\log4net.unix.config
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\ChatServer.exe.config
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.FServer.resources
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.Properties.Resources.resources
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.exe
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.pdb
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\bin\Debug\ChatServer.pdb
+E:\基础服务平台\第二阶段程序\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache
