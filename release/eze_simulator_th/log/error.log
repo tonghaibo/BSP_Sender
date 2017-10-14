@@ -1,0 +1,2 @@
+2017-10-12 14:27:03.779 [error] <0.74.0>@lager_file_backend:235 Failed to rotate log file log/console.log with error permission denied
+2017-10-12 17:23:19.724 [error] <0.74.0>@lager_file_backend:235 Failed to rotate log file log/console.log with error permission denied

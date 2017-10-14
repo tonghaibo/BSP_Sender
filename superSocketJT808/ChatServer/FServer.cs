@@ -18,6 +18,7 @@ using System.Configuration;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Framing.Impl;
 using SuperSocket.SocketBase;
+using System.Collections.Concurrent;
 
 namespace ChatServer
 {
@@ -25,6 +26,12 @@ namespace ChatServer
     {
         // 队列名称  
         private readonly static string QUEUE_NAME = "task_queue";
+        //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
+        private static ConnectionFactory factory = new ConnectionFactory();
+        //private static IConnection connection = factory.CreateConnection();//创建socket连接
+        private static List<IConnection> connectionList = new List<IConnection>();
+        //private static IModel channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
+        private static List<IModel> channelList = new List<IModel>();
         public FServer()
         {
             InitializeComponent();
@@ -32,7 +39,6 @@ namespace ChatServer
             TextBox.CheckForIllegalCrossThreadCalls = false;
             Label.CheckForIllegalCrossThreadCalls = false;
         }
-
 
         /// <summary>
         /// 启动服务
@@ -48,8 +54,6 @@ namespace ChatServer
             string ipAddress = null;
             //获取服务端IPv4地址
             ipAddress = GetLocalIPv4Address().ToString();
-            //获取多网卡外网IP
-            //ipAddress = GetIP();
 
             //ip: 服务器监听的ip地址。你可以设置具体的地址，也可以设置为下面的值 Any
             if (ipBox.Text.Trim() != "" && portBox.Text.Trim() != "")
@@ -69,10 +73,8 @@ namespace ChatServer
                 return;
             }
            
-            //lblPort.Text = serverConfig.Port.ToString();
-            //lblIP.Text = serverConfig.Ip.ToString();
             //启动应用服务端口
-            if (!protocolServer.Setup(serverConfig)) //启动时监听端口2017
+            if (!protocolServer.Setup(serverConfig)) //启动时监听端口
             {
                 connMsg.AppendText("---->>>服务启动失败，请检查IP地址!" + "\r\n");
                 return;
@@ -96,6 +98,28 @@ namespace ChatServer
 
 
             btnStartService.Enabled = false;
+
+            //启动好服务即将相应的connection和channel创建好
+            factory.HostName = "localhost";
+            factory.Port = 5672;
+            factory.UserName = "admin";
+            factory.Password = "123456";
+            factory.RequestedHeartbeat = 60;
+            factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
+            IConnection connection;
+            IModel channel;
+            //最多只允许创建connCount个socket连接
+            for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim());linkNum++)
+            {
+                connection = factory.CreateConnection();//创建Socket连接
+                connectionList.Add(connection);
+                //最多只允许创建channelCount个channel
+                for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); linkNum++)
+                {
+                    channel = connection.CreateModel();
+                    channelList.Add(channel);
+                }
+            }
         }
 
 
@@ -110,99 +134,60 @@ namespace ChatServer
         void protocolServer_NewRequestReceived(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
             msgCount++;
-            session.Logger.Info(msgCount + "条，\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
-            //txtMsg.AppendText("\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
+            //session.Logger.Info(msgCount + "条，\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
 
             if (requestInfo.Body.errorlog != null) {
-                //LogHelper.WriteLog(typeof(FServer), "\r\n消息解析失败，格式错误！\r\n" + session.RemoteEndPoint + "发送：" + requestInfo.Body.all2);
-
-                session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
-                //connMsg.AppendText("\r\n" + requestInfo.Body.errorlog+"消息内容：\r\n" + requestInfo.Body.all2);
-
+                //session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
             }
 
             //答应消息发送
             if (requestInfo.Body.getMsgRespBytes() != null)
             {
                 session.Send(requestInfo.Body.getMsgRespBytes(), 0, requestInfo.Body.getMsgRespBytes().Length);
-                //txtMsg.AppendText("\r\n" + GetCurrentTime() + "\n 向客户端【" + session.RemoteEndPoint + "】\n回执消息:\r\n" + ExplainUtils.convertStrMsg(requestInfo.Body.getMsgRespBytes()) + "\r\n");
             }
-            //打印位置信息
-            if (ExplainUtils.msg_id_terminal_location_info_upload == requestInfo.Body.msgHeader.msgId)
-            {
-                //string bodymsg = " 报警--->" + requestInfo.Body.locationInfo.alc
-                //               + "\r\n 状态--->" + requestInfo.Body.locationInfo.bst
-                //               + "\r\n 经度--->" + requestInfo.Body.locationInfo.lon.ToString()
-                //               + "\r\n 纬度--->" + requestInfo.Body.locationInfo.lat.ToString()
-                //               + "\r\n 高程--->" + requestInfo.Body.locationInfo.hgt.ToString()
-                //               + "\r\n 速度--->" + requestInfo.Body.locationInfo.spd.ToString()
-                //               + "\r\n 方向--->" + requestInfo.Body.locationInfo.agl.ToString()
-                //               + "\r\n 时间--->" + requestInfo.Body.locationInfo.gtm.ToString()
-                //               + "\r\n 里程--->" + requestInfo.Body.locationInfo.mlg.ToString()
-                //               + "\r\n 油量--->" + requestInfo.Body.locationInfo.oil.ToString()
-                //               + "\r\n 记录仪速度--->" + requestInfo.Body.locationInfo.spd2.ToString()
-                //               + "\r\n 信号状态--->" + requestInfo.Body.locationInfo.est
-                //               + "\r\n IO状态位--->" + requestInfo.Body.locationInfo.io
-                //               + "\r\n 模拟量--->" + requestInfo.Body.locationInfo.ad1.ToString()
-                //               + "\r\n 信号强度--->" + requestInfo.Body.locationInfo.yte.ToString()
-                //               + "\r\n 定位卫星数--->" + requestInfo.Body.locationInfo.gnss.ToString();
 
-
-                //txtMsg.AppendText("\r\n【解析消息内容:】\r\n" + bodymsg + "\r\n");
-
-                rabbitMqTest(session,requestInfo);
-            }
+            rabbitMqTest(session, requestInfo);
         }
 
-        int count1 = 0;
+        int count1 = 0;//发送到消息队列消息条数
+        int connMod;//当前消息数模connection数,确定消息进哪个connection
+        int channelMod;//当前消息数模channel数,确定消息进哪个channel
+        IBasicProperties properties;
         //rabbitmq消息测试
         public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            string terminalPhone = requestInfo.Body.msgHeader.terminalPhone;
             var sendMessage = BitConverter.ToString(requestInfo.Body.getMsgBodyBytes()).Replace("-", " ");
             var sendbody = Encoding.UTF8.GetBytes(sendMessage);
-            var factory = new ConnectionFactory();
-            factory.HostName = "localhost";
-            factory.Port = 5672;
-            factory.UserName = "admin";
-            factory.Password = "123456";
-            factory.RequestedHeartbeat = 60;
-            factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
+            
             try
             {
-                using (var connection = factory.CreateConnection()) //创建Socket连接
-                {
-                    using (var channel = connection.CreateModel())  //channel中包含几乎所有的API来供我们操作queue
-                    {
-                        //声明queue
-                        channel.QueueDeclare(queue: QUEUE_NAME,//队列名
-                                             durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
-                                             exclusive: false,//排他性
-                                             autoDelete: false,//一旦客户端连接断开则自动删除queue
-                                             arguments: null);//如果安装了队列优先级插件则可以设置优先级
+                connMod = count1 % Int32.Parse(connCount.Text.Trim());
+                channelMod = count1 % Int32.Parse(channelCount_tb.Text.Trim());
+                channelList[channelMod] = connectionList[connMod].CreateModel();//channel中包含几乎所有的API来供我们操作queue
+                                                                                //声明queue
+                channelList[channelMod].QueueDeclare(queue: QUEUE_NAME,//队列名
+                                        durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
+                                        exclusive: false,//排他性
+                                        autoDelete: false,//一旦客户端连接断开则自动删除queue
+                                        arguments: null);//如果安装了队列优先级插件则可以设置优先级
 
-                        //消息持久化
-                        var properties = channel.CreateBasicProperties();
-                        properties.Persistent = true;
+                //消息持久化
+                properties = channelList[channelMod].CreateBasicProperties();
+                properties.Persistent = true;
 
-                        channel.BasicPublish(exchange: "",//exchange名称
-                                            routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
-                                            basicProperties: properties,
-                                            body: sendbody);//消息体
-                        count1++;
-                        pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                        session.Logger.Info(GetCurrentTime() + "\n 发送到消息队列消息条数:"+ count1.ToString()+ "\r\n");
-                        Console.WriteLine("[x] sent {0}", sendbody);
-                    }
-                    Console.WriteLine("Press [enter] to exit.");
-                    Console.ReadLine();
-                }
+                channelList[channelMod].BasicPublish(exchange: "",//exchange名称
+                                    routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
+                                    basicProperties: properties,
+                                    body: sendbody);//消息体
+                count1++;
+                pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
+                session.Logger.Info(GetCurrentTime() + "\n 发送到消息队列消息条数:" + count1.ToString() + "\r\n");
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
-                session.Logger.Error("\r\n"+ ex.Message.ToString() + "\r\n");
+                //session.Logger.Error("\r\n"+ ex.Message.ToString() + "\r\n");
             }
-            session.Logger.Info("\r\n写入rabbitmq消息:" + sendMessage + "\r\n");
+            //session.Logger.Info("\r\n写入rabbitmq消息:" + sendMessage + "\r\n");
         }
 
         /// <summary>
@@ -212,8 +197,8 @@ namespace ChatServer
         /// <param name="value"></param>
         void protocolServer_SessionClosed(HLProtocolSession session, SuperSocket.SocketBase.CloseReason value)
         {
-            //connMsg.AppendText("\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
-            session.Logger.Info("\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
+            //session.Logger.Info("\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
+            closeChanConn();
             session.Close();
         }
 
@@ -223,11 +208,35 @@ namespace ChatServer
         /// <param name="session"></param>
         void protocolServer_NewSessionConnected(HLProtocolSession session)
         {
-
-            //connMsg.AppendText("\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
-            session.Logger.Info("\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
+            //session.Logger.Info("\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
         }
 
+        //关闭通道和连接
+        public void closeChanConn()
+        {
+            //关闭channel
+            if (null != channelList)
+            {
+                foreach (IModel channel in channelList)
+                {
+                    if (null != channel)
+                    {
+                        channel.Close();
+                    }
+                }
+            }
+            //关闭connection
+            if (null != connectionList)
+            {
+                foreach (IConnection connection in connectionList)
+                {
+                    if (null != connection)
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+        }
 
 
         /// <summary>  
@@ -291,9 +300,15 @@ namespace ChatServer
         //关闭服务端
         private void btnExit_Click(object sender, EventArgs e)
         {
+            closeChanConn();
             Application.Exit();
         }
 
+        
+        //测试消息发送
+        public void testMsgSend()
+        {
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             txtMsg.Text = "";

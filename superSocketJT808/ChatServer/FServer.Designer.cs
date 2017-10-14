@@ -48,6 +48,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.pubMsgCount = new System.Windows.Forms.Label();
+            this.connCountlabel = new System.Windows.Forms.Label();
+            this.connCount = new System.Windows.Forms.TextBox();
+            this.channelCountlabel = new System.Windows.Forms.Label();
+            this.channelCount_tb = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +70,7 @@
             this.txtMsg.Multiline = true;
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMsg.Size = new System.Drawing.Size(666, 176);
+            this.txtMsg.Size = new System.Drawing.Size(666, 131);
             this.txtMsg.TabIndex = 19;
             // 
             // btnStartService
@@ -241,11 +245,49 @@
             this.pubMsgCount.TabIndex = 38;
             this.pubMsgCount.Text = "发送到消息队列消息条数：0";
             // 
+            // connCountlabel
+            // 
+            this.connCountlabel.AutoSize = true;
+            this.connCountlabel.Location = new System.Drawing.Point(286, 223);
+            this.connCountlabel.Name = "connCountlabel";
+            this.connCountlabel.Size = new System.Drawing.Size(53, 12);
+            this.connCountlabel.TabIndex = 39;
+            this.connCountlabel.Text = "连接数：";
+            // 
+            // connCount
+            // 
+            this.connCount.Location = new System.Drawing.Point(359, 220);
+            this.connCount.Name = "connCount";
+            this.connCount.Size = new System.Drawing.Size(100, 21);
+            this.connCount.TabIndex = 40;
+            this.connCount.Text = "5";
+            // 
+            // channelCountlabel
+            // 
+            this.channelCountlabel.AutoSize = true;
+            this.channelCountlabel.Location = new System.Drawing.Point(540, 228);
+            this.channelCountlabel.Name = "channelCountlabel";
+            this.channelCountlabel.Size = new System.Drawing.Size(53, 12);
+            this.channelCountlabel.TabIndex = 41;
+            this.channelCountlabel.Text = "通道数：";
+            // 
+            // channelCount_tb
+            // 
+            this.channelCount_tb.Location = new System.Drawing.Point(618, 220);
+            this.channelCount_tb.Name = "channelCount_tb";
+            this.channelCount_tb.Size = new System.Drawing.Size(100, 21);
+            this.channelCount_tb.TabIndex = 42;
+            this.channelCount_tb.Text = "10";
+            // 
             // FServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 510);
+            this.Controls.Add(this.channelCount_tb);
+            this.Controls.Add(this.channelCountlabel);
+            this.Controls.Add(this.connCount);
+            this.Controls.Add(this.connCountlabel);
             this.Controls.Add(this.pubMsgCount);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -291,6 +333,10 @@
         private System.Windows.Forms.TextBox portBox;
         private System.Windows.Forms.TextBox ipBox;
         private System.Windows.Forms.Label pubMsgCount;
+        private System.Windows.Forms.Label connCountlabel;
+        private System.Windows.Forms.TextBox connCount;
+        private System.Windows.Forms.Label channelCountlabel;
+        private System.Windows.Forms.TextBox channelCount_tb;
     }
 }
 
