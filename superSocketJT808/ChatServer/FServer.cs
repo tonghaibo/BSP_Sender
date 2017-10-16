@@ -28,10 +28,8 @@ namespace ChatServer
         private readonly static string QUEUE_NAME = "task_queue";
         //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
         private static ConnectionFactory factory = new ConnectionFactory();
-        //private static IConnection connection = factory.CreateConnection();//创建socket连接
         private static List<IConnection> connectionList = new List<IConnection>();
-        //private static IModel channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
-        private static List<IModel> channelList = new List<IModel>();
+        Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
         public FServer()
         {
             InitializeComponent();
@@ -108,17 +106,26 @@ namespace ChatServer
             factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
             IConnection connection;
             IModel channel;
+            List<IModel> channels;
             //最多只允许创建connCount个socket连接
             for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim());linkNum++)
             {
                 connection = factory.CreateConnection();//创建Socket连接
                 connectionList.Add(connection);
+                channels = new List<IModel>();
                 //最多只允许创建channelCount个channel
-                for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); linkNum++)
+                for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
                 {
-                    channel = connection.CreateModel();
-                    channelList.Add(channel);
+                    channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
+                    //声明queue
+                    channel.QueueDeclare(queue: QUEUE_NAME,//队列名
+                                        durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
+                                        exclusive: false,//排他性
+                                        autoDelete: false,//一旦客户端连接断开则自动删除queue
+                                        arguments: null);//如果安装了队列优先级插件则可以设置优先级
+                    channels.Add(channel);
                 }
+                channelList.Add(connection,channels);
             }
         }
 
@@ -163,25 +170,22 @@ namespace ChatServer
             {
                 connMod = count1 % Int32.Parse(connCount.Text.Trim());
                 channelMod = count1 % Int32.Parse(channelCount_tb.Text.Trim());
-                channelList[channelMod] = connectionList[connMod].CreateModel();//channel中包含几乎所有的API来供我们操作queue
-                                                                                //声明queue
-                channelList[channelMod].QueueDeclare(queue: QUEUE_NAME,//队列名
-                                        durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
-                                        exclusive: false,//排他性
-                                        autoDelete: false,//一旦客户端连接断开则自动删除queue
-                                        arguments: null);//如果安装了队列优先级插件则可以设置优先级
-
-                //消息持久化
-                properties = channelList[channelMod].CreateBasicProperties();
-                properties.Persistent = true;
-
-                channelList[channelMod].BasicPublish(exchange: "",//exchange名称
+                if (channelList.ContainsKey(connectionList[connMod]))
+                {
+                    properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
+                    properties.Persistent = true;
+                    channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
                                     routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
                                     body: sendbody);//消息体
-                count1++;
-                pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                session.Logger.Info(GetCurrentTime() + "\n 发送到消息队列消息条数:" + count1.ToString() + "\r\n");
+                    count1++;
+                    pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
+                    session.Logger.Info(GetCurrentTime() + "\n 发送到消息队列消息条数:" + count1.ToString() + "\r\n");
+                }
+
+                
+
+                
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
@@ -199,7 +203,11 @@ namespace ChatServer
         {
             //session.Logger.Info("\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
             closeChanConn();
-            session.Close();
+            if(null != session)
+            {
+                session.Logger.Info(GetCurrentTime()+"\rsession被关闭,关闭原因：" +value);
+                session.Close();
+            }
         }
 
         /// <summary>
@@ -214,14 +222,17 @@ namespace ChatServer
         //关闭通道和连接
         public void closeChanConn()
         {
-            //关闭channel
+            //关闭channel Dictionary<IConnection, List<IModel>>
             if (null != channelList)
             {
-                foreach (IModel channel in channelList)
+                foreach (List<IModel> channels in channelList.Values)
                 {
-                    if (null != channel)
+                    foreach(IModel channel in channels)
                     {
-                        channel.Close();
+                        if(null != channel)
+                        {
+                            channel.Close();
+                        }
                     }
                 }
             }

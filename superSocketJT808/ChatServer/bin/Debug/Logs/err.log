@@ -1,1 +1,30 @@
-﻿
+﻿2017-10-16 16:44:21,401 [16] ERROR JT808ProtocolServer-49205706 - RabbitMQ.Client.Exceptions.AlreadyClosedException: Already closed: The AMQP operation was interrupted: AMQP close-reason, initiated by Application, code=200, text="Goodbye", classId=0, methodId=0, cause=
+
+Server stack trace: 
+   在 RabbitMQ.Client.Framing.Impl.Connection.Close(ShutdownEventArgs reason, Boolean abort, Int32 timeout)
+   在 RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Close()
+   在 ChatServer.FServer.closeChanConn() 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 246
+   在 ChatServer.FServer.protocolServer_SessionClosed(HLProtocolSession session, CloseReason value) 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 205
+   在 System.Runtime.Remoting.Messaging.StackBuilderSink._PrivateProcessMessage(IntPtr md, Object[] args, Object server, Object[]& outArgs)
+   在 System.Runtime.Remoting.Messaging.StackBuilderSink.AsyncProcessMessage(IMessage msg, IMessageSink replySink)
+
+Exception rethrown at [0]: 
+   在 System.Runtime.Remoting.Proxies.RealProxy.EndInvokeHelper(Message reqMsg, Boolean bProxyCase)
+   在 System.Runtime.Remoting.Proxies.RemotingProxy.Invoke(Object NotUsed, MessageData& msgData)
+   在 SuperSocket.SocketBase.SessionHandler`2.EndInvoke(IAsyncResult result)
+   在 SuperSocket.SocketBase.AppServerBase`2.OnSessionClosedCallback(IAsyncResult result)
+2017-10-16 16:44:21,417 [15] ERROR JT808ProtocolServer-49205706 - RabbitMQ.Client.Exceptions.AlreadyClosedException: Already closed: The AMQP operation was interrupted: AMQP close-reason, initiated by Application, code=200, text="Goodbye", classId=0, methodId=0, cause=
+
+Server stack trace: 
+   在 RabbitMQ.Client.Framing.Impl.Connection.Close(ShutdownEventArgs reason, Boolean abort, Int32 timeout)
+   在 RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Close()
+   在 ChatServer.FServer.closeChanConn() 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 246
+   在 ChatServer.FServer.protocolServer_SessionClosed(HLProtocolSession session, CloseReason value) 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 205
+   在 System.Runtime.Remoting.Messaging.StackBuilderSink._PrivateProcessMessage(IntPtr md, Object[] args, Object server, Object[]& outArgs)
+   在 System.Runtime.Remoting.Messaging.StackBuilderSink.AsyncProcessMessage(IMessage msg, IMessageSink replySink)
+
+Exception rethrown at [0]: 
+   在 System.Runtime.Remoting.Proxies.RealProxy.EndInvokeHelper(Message reqMsg, Boolean bProxyCase)
+   在 System.Runtime.Remoting.Proxies.RemotingProxy.Invoke(Object NotUsed, MessageData& msgData)
+   在 SuperSocket.SocketBase.SessionHandler`2.EndInvoke(IAsyncResult result)
+   在 SuperSocket.SocketBase.AppServerBase`2.OnSessionClosedCallback(IAsyncResult result)
