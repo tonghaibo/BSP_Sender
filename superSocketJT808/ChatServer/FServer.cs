@@ -30,6 +30,8 @@ namespace ChatServer
         private static ConnectionFactory factory = new ConnectionFactory();
         private static List<IConnection> connectionList = new List<IConnection>();
         Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
+        private JT808ProtocolServer protocolServer = new JT808ProtocolServer();
+        private ServerConfig serverConfig = new ServerConfig();
         public FServer()
         {
             InitializeComponent();
@@ -45,10 +47,6 @@ namespace ChatServer
         /// <param name="e"></param>
         void btnStartService_Click(object sender, EventArgs e)
         {
-
-            var protocolServer = new JT808ProtocolServer();
-            var serverConfig = new ServerConfig();
-
             string ipAddress = null;
             //获取服务端IPv4地址
             ipAddress = GetLocalIPv4Address().ToString();
@@ -98,7 +96,7 @@ namespace ChatServer
             btnStartService.Enabled = false;
 
             //启动好服务即将相应的connection和channel创建好
-            factory.HostName = "localhost";
+            factory.HostName = mqAddr_tb.Text.Trim();
             factory.Port = 5672;
             factory.UserName = "admin";
             factory.Password = "123456";
@@ -141,16 +139,16 @@ namespace ChatServer
         void protocolServer_NewRequestReceived(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
             msgCount++;
-            //session.Logger.Info(msgCount + "条，\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
+            session.Logger.Info(msgCount + "条，\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
 
             if (requestInfo.Body.errorlog != null) {
-                //session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
+                session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
             }
 
             //答应消息发送
             if (requestInfo.Body.getMsgRespBytes() != null)
             {
-                session.Send(requestInfo.Body.getMsgRespBytes(), 0, requestInfo.Body.getMsgRespBytes().Length);
+                    session.Send(requestInfo.Body.getMsgRespBytes(), 0, requestInfo.Body.getMsgRespBytes().Length);
             }
 
             rabbitMqTest(session, requestInfo);
@@ -189,9 +187,9 @@ namespace ChatServer
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
-                //session.Logger.Error("\r\n"+ ex.Message.ToString() + "\r\n");
+                session.Logger.Error("\r\n" + ex.Message.ToString() + "\r\n");
             }
-            //session.Logger.Info("\r\n写入rabbitmq消息:" + sendMessage + "\r\n");
+            session.Logger.Info("\r\n写入rabbitmq消息:" + sendMessage + "\r\n");
         }
 
         /// <summary>
@@ -201,13 +199,8 @@ namespace ChatServer
         /// <param name="value"></param>
         void protocolServer_SessionClosed(HLProtocolSession session, SuperSocket.SocketBase.CloseReason value)
         {
-            //session.Logger.Info("\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
-            closeChanConn();
-            if(null != session)
-            {
-                session.Logger.Info(GetCurrentTime()+"\rsession被关闭,关闭原因：" +value);
-                session.Close();
-            }
+            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
+            session.Close();
         }
 
         /// <summary>
@@ -216,7 +209,7 @@ namespace ChatServer
         /// <param name="session"></param>
         void protocolServer_NewSessionConnected(HLProtocolSession session)
         {
-            //session.Logger.Info("\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
+            session.Logger.Info(GetCurrentTime() + "\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
         }
 
         //关闭通道和连接

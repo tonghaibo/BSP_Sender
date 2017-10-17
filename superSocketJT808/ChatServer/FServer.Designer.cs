@@ -52,6 +52,8 @@
             this.connCount = new System.Windows.Forms.TextBox();
             this.channelCountlabel = new System.Windows.Forms.Label();
             this.channelCount_tb = new System.Windows.Forms.TextBox();
+            this.mqAddr_label = new System.Windows.Forms.Label();
+            this.mqAddr_tb = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -150,7 +152,7 @@
             this.portBox.Name = "portBox";
             this.portBox.Size = new System.Drawing.Size(132, 21);
             this.portBox.TabIndex = 39;
-            this.portBox.Text = "10003";
+            this.portBox.Text = "10008";
             // 
             // ipBox
             // 
@@ -158,7 +160,7 @@
             this.ipBox.Name = "ipBox";
             this.ipBox.Size = new System.Drawing.Size(132, 21);
             this.ipBox.TabIndex = 38;
-            this.ipBox.Text = "127.0.0.1";
+            this.ipBox.Text = "192.168.1.47";
             // 
             // lblPort
             // 
@@ -265,7 +267,7 @@
             // channelCountlabel
             // 
             this.channelCountlabel.AutoSize = true;
-            this.channelCountlabel.Location = new System.Drawing.Point(540, 228);
+            this.channelCountlabel.Location = new System.Drawing.Point(494, 223);
             this.channelCountlabel.Name = "channelCountlabel";
             this.channelCountlabel.Size = new System.Drawing.Size(53, 12);
             this.channelCountlabel.TabIndex = 41;
@@ -273,17 +275,36 @@
             // 
             // channelCount_tb
             // 
-            this.channelCount_tb.Location = new System.Drawing.Point(618, 220);
+            this.channelCount_tb.Location = new System.Drawing.Point(553, 220);
             this.channelCount_tb.Name = "channelCount_tb";
             this.channelCount_tb.Size = new System.Drawing.Size(100, 21);
             this.channelCount_tb.TabIndex = 42;
             this.channelCount_tb.Text = "10";
+            // 
+            // mqAddr_label
+            // 
+            this.mqAddr_label.AutoSize = true;
+            this.mqAddr_label.Location = new System.Drawing.Point(677, 223);
+            this.mqAddr_label.Name = "mqAddr_label";
+            this.mqAddr_label.Size = new System.Drawing.Size(53, 12);
+            this.mqAddr_label.TabIndex = 43;
+            this.mqAddr_label.Text = "mq地址：";
+            // 
+            // mqAddr_tb
+            // 
+            this.mqAddr_tb.Location = new System.Drawing.Point(736, 220);
+            this.mqAddr_tb.Name = "mqAddr_tb";
+            this.mqAddr_tb.Size = new System.Drawing.Size(119, 21);
+            this.mqAddr_tb.TabIndex = 44;
+            this.mqAddr_tb.Text = "localhost";
             // 
             // FServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 510);
+            this.Controls.Add(this.mqAddr_tb);
+            this.Controls.Add(this.mqAddr_label);
             this.Controls.Add(this.channelCount_tb);
             this.Controls.Add(this.channelCountlabel);
             this.Controls.Add(this.connCount);
@@ -337,6 +358,8 @@
         private System.Windows.Forms.TextBox connCount;
         private System.Windows.Forms.Label channelCountlabel;
         private System.Windows.Forms.TextBox channelCount_tb;
+        private System.Windows.Forms.Label mqAddr_label;
+        private System.Windows.Forms.TextBox mqAddr_tb;
     }
 }
 

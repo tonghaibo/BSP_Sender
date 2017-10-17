@@ -1,30 +1,361 @@
-﻿2017-10-16 16:44:21,401 [16] ERROR JT808ProtocolServer-49205706 - RabbitMQ.Client.Exceptions.AlreadyClosedException: Already closed: The AMQP operation was interrupted: AMQP close-reason, initiated by Application, code=200, text="Goodbye", classId=0, methodId=0, cause=
-
-Server stack trace: 
-   在 RabbitMQ.Client.Framing.Impl.Connection.Close(ShutdownEventArgs reason, Boolean abort, Int32 timeout)
-   在 RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Close()
-   在 ChatServer.FServer.closeChanConn() 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 246
-   在 ChatServer.FServer.protocolServer_SessionClosed(HLProtocolSession session, CloseReason value) 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 205
-   在 System.Runtime.Remoting.Messaging.StackBuilderSink._PrivateProcessMessage(IntPtr md, Object[] args, Object server, Object[]& outArgs)
-   在 System.Runtime.Remoting.Messaging.StackBuilderSink.AsyncProcessMessage(IMessage msg, IMessageSink replySink)
-
-Exception rethrown at [0]: 
-   在 System.Runtime.Remoting.Proxies.RealProxy.EndInvokeHelper(Message reqMsg, Boolean bProxyCase)
-   在 System.Runtime.Remoting.Proxies.RemotingProxy.Invoke(Object NotUsed, MessageData& msgData)
-   在 SuperSocket.SocketBase.SessionHandler`2.EndInvoke(IAsyncResult result)
-   在 SuperSocket.SocketBase.AppServerBase`2.OnSessionClosedCallback(IAsyncResult result)
-2017-10-16 16:44:21,417 [15] ERROR JT808ProtocolServer-49205706 - RabbitMQ.Client.Exceptions.AlreadyClosedException: Already closed: The AMQP operation was interrupted: AMQP close-reason, initiated by Application, code=200, text="Goodbye", classId=0, methodId=0, cause=
-
-Server stack trace: 
-   在 RabbitMQ.Client.Framing.Impl.Connection.Close(ShutdownEventArgs reason, Boolean abort, Int32 timeout)
-   在 RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Close()
-   在 ChatServer.FServer.closeChanConn() 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 246
-   在 ChatServer.FServer.protocolServer_SessionClosed(HLProtocolSession session, CloseReason value) 位置 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\FServer.cs:行号 205
-   在 System.Runtime.Remoting.Messaging.StackBuilderSink._PrivateProcessMessage(IntPtr md, Object[] args, Object server, Object[]& outArgs)
-   在 System.Runtime.Remoting.Messaging.StackBuilderSink.AsyncProcessMessage(IMessage msg, IMessageSink replySink)
-
-Exception rethrown at [0]: 
-   在 System.Runtime.Remoting.Proxies.RealProxy.EndInvokeHelper(Message reqMsg, Boolean bProxyCase)
-   在 System.Runtime.Remoting.Proxies.RemotingProxy.Invoke(Object NotUsed, MessageData& msgData)
-   在 SuperSocket.SocketBase.SessionHandler`2.EndInvoke(IAsyncResult result)
-   在 SuperSocket.SocketBase.AppServerBase`2.OnSessionClosedCallback(IAsyncResult result)
+﻿2017-10-17 10:29:18,642 [1] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.53:10008) error: 在其上下文中，该请求的地址无效。
+System.Net.Sockets.SocketException (0x80004005): 在其上下文中，该请求的地址无效。
+   在 System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   在 System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   在 SuperSocket.SocketEngine.TcpAsyncSocketListener.Start(IServerConfig config)
+2017-10-17 10:29:52,682 [8] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:29:52,805 [11] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,809 [7] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,810 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,981 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,982 [7] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,996 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,997 [7] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,997 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:22,997 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,074 [7] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,074 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,075 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,075 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,088 [7] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,089 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,089 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,103 [5] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,105 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,134 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,183 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,183 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,183 [5] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,199 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,199 [5] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,199 [4] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,218 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:30:23,245 [9] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,550 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,711 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,732 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,769 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,769 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,769 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,938 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,938 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,959 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,960 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:47,960 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,137 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,137 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,146 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,146 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,216 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,345 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,346 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,346 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,480 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,523 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,523 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,619 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,635 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,648 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,783 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,859 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,860 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,889 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,889 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,889 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,931 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,932 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,932 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,932 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,949 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:48,994 [25] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,016 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,062 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,062 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,062 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,062 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,063 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,083 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,083 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,083 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,124 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,124 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,124 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,125 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,152 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,153 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,153 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,289 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,308 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,322 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,342 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,402 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,402 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,436 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,436 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,436 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,572 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,617 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,719 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,725 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,914 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,915 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,915 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:49,961 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,022 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,138 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,162 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,366 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,417 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,417 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,418 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,569 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,662 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,692 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,928 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:50,990 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:51,160 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:51,177 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:51,268 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:51,466 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:51,958 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,210 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,596 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,834 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,834 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,834 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,927 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:52,957 [31] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,038 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,038 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,111 [13] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,160 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,301 [29] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:38:53,411 [46] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,440 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,547 [50] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,723 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,723 [50] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,859 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:30,864 [50] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,109 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,503 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,503 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,580 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,581 [59] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,581 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,615 [59] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,705 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,888 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,988 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:31,993 [59] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,045 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,144 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,186 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,222 [59] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,223 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,248 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,954 [59] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,954 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:32,997 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,012 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,061 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,091 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,136 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,254 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,254 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,341 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:33,638 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,236 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,236 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,258 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,329 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,329 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,329 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,330 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:34,713 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:35,074 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:35,091 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:35,450 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:35,477 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:35,680 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:36,041 [49] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:36,336 [54] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
+2017-10-17 10:40:36,399 [60] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
+System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
