@@ -150,8 +150,11 @@ namespace ChatServer
             {
                     session.Send(requestInfo.Body.getMsgRespBytes(), 0, requestInfo.Body.getMsgRespBytes().Length);
             }
-
-            rabbitMqTest(session, requestInfo);
+            //只有位置上报信息才往rabbitmq里面扔，过滤掉心跳包
+            if (ExplainUtils.msg_id_terminal_location_info_upload == requestInfo.Body.msgHeader.msgId)
+            {
+                rabbitMqTest(session, requestInfo);
+            }
         }
 
         int count1 = 0;//发送到消息队列消息条数

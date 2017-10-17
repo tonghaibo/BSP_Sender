@@ -1,3 +1,4 @@
 ﻿2017-10-17 10:29:18,655 [1] DEBUG JT808ProtocolServer-49205706 - Listener (192.168.1.53:10008) failed to start
 2017-10-17 10:29:52,410 [1] DEBUG JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) was started
 2017-10-17 10:30:22,777 [1] DEBUG JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) was started
+2017-10-17 13:25:15,019 [1] DEBUG JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) was started
