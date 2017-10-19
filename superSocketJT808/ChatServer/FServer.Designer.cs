@@ -262,7 +262,7 @@
             this.connCount.Name = "connCount";
             this.connCount.Size = new System.Drawing.Size(100, 21);
             this.connCount.TabIndex = 40;
-            this.connCount.Text = "5";
+            this.connCount.Text = "10";
             // 
             // channelCountlabel
             // 
@@ -279,7 +279,7 @@
             this.channelCount_tb.Name = "channelCount_tb";
             this.channelCount_tb.Size = new System.Drawing.Size(100, 21);
             this.channelCount_tb.TabIndex = 42;
-            this.channelCount_tb.Text = "10";
+            this.channelCount_tb.Text = "20";
             // 
             // mqAddr_label
             // 
@@ -296,7 +296,7 @@
             this.mqAddr_tb.Name = "mqAddr_tb";
             this.mqAddr_tb.Size = new System.Drawing.Size(119, 21);
             this.mqAddr_tb.TabIndex = 44;
-            this.mqAddr_tb.Text = "localhost";
+            this.mqAddr_tb.Text = "192.168.1.53";
             // 
             // FServer
             // 
