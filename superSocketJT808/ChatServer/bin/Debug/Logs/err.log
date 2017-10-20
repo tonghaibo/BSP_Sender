@@ -1,2 +1,0 @@
-﻿2017-10-19 10:11:06,580 [5] ERROR JT808ProtocolServer-49205706 - Listener (192.168.1.47:10008) error: 远程主机强迫关闭了一个现有的连接。
-System.Net.Sockets.SocketException (0x80004005): 远程主机强迫关闭了一个现有的连接。
