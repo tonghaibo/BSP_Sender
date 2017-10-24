@@ -139,7 +139,6 @@ namespace ChatServer
         void protocolServer_NewRequestReceived(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
             msgCount++;
-            session.Logger.Info(msgCount + "条，\r\n" + GetCurrentTime() + "\n 收到客户端【" + session.RemoteEndPoint + "】\n信息：\r\n" + requestInfo.Body.all2 + "\r\n");
 
             if (requestInfo.Body.errorlog != null) {
                 session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
@@ -181,7 +180,6 @@ namespace ChatServer
                                     body: sendbody);//消息体
                     count1++;
                     pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                    session.Logger.Info(GetCurrentTime() + "\n 发送到消息队列消息条数:" + count1.ToString() + "\r\n");
                 }
 
                 
@@ -192,7 +190,6 @@ namespace ChatServer
             {
                 session.Logger.Error("\r\n" + ex.Message.ToString() + "\r\n");
             }
-            session.Logger.Info("\r\n写入rabbitmq消息:" + sendMessage + "\r\n");
         }
 
         /// <summary>

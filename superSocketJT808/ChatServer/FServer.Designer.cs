@@ -279,7 +279,7 @@
             this.channelCount_tb.Name = "channelCount_tb";
             this.channelCount_tb.Size = new System.Drawing.Size(100, 21);
             this.channelCount_tb.TabIndex = 42;
-            this.channelCount_tb.Text = "20";
+            this.channelCount_tb.Text = "40";
             // 
             // mqAddr_label
             // 
