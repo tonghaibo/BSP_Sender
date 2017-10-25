@@ -92,4 +92,3 @@ E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\C
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csproj.GenerateResource.Cache
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.exe
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.pdb
-E:\基础服务平台\TCP\ChatServer\superSocketJT808\ChatServer\obj\x86\Debug\ChatServer.csprojResolveAssemblyReference.cache

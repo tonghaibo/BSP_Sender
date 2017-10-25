@@ -32,6 +32,10 @@ namespace ChatServer
         Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
         private JT808ProtocolServer protocolServer = new JT808ProtocolServer();
         private ServerConfig serverConfig = new ServerConfig();
+
+        public static int clientCount = 0;//客户端在线数量
+        public static object locker = new object();//添加一个对象作为锁
+
         public FServer()
         {
             InitializeComponent();
@@ -180,11 +184,7 @@ namespace ChatServer
                                     body: sendbody);//消息体
                     count1++;
                     pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                }
-
-                
-
-                
+                }                
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
@@ -199,7 +199,13 @@ namespace ChatServer
         /// <param name="value"></param>
         void protocolServer_SessionClosed(HLProtocolSession session, SuperSocket.SocketBase.CloseReason value)
         {
-            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接！断开原因：" + value + "\r\n");
+            //锁
+            lock (locker)
+            {
+                clientCount--;
+                clientCount_tb.Text = clientCount.ToString();
+            }
+            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
             session.Close();
         }
 
@@ -209,7 +215,13 @@ namespace ChatServer
         /// <param name="session"></param>
         void protocolServer_NewSessionConnected(HLProtocolSession session)
         {
-            session.Logger.Info(GetCurrentTime() + "\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,现在你们可以开始通信了...\r\n");
+            //锁
+            lock (locker)   
+            {
+                clientCount++;
+                clientCount_tb.Text = clientCount.ToString();
+                session.Logger.Info(GetCurrentTime() + "\r\nIP:【" + session.RemoteEndPoint + "】 的客户端与您连接成功,连接数："+ clientCount.ToString() + "\r\n");
+            }
         }
 
         //关闭通道和连接
@@ -337,5 +349,22 @@ namespace ChatServer
             MessageBox.Show("文本内容已复制到剪切板！");
         }
 
+        //窗口初始化时注册窗口关闭程序
+        private void FServer_Load(object sender, EventArgs e)
+        {
+            this.FormClosing += new FormClosingEventHandler(FServer_FormClosing);
+            this.FormClosed += new FormClosedEventHandler(FServer_FormClosed);
+        }
+
+        private void FServer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            System.Environment.Exit(0);//最彻底的退出方式，不管什么线程都被强制退出，把程序结束的很干净
+        }
+
+        //关闭窗口程序
+        private void FServer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            System.Environment.Exit(0); //最彻底的退出方式，不管什么线程都被强制退出，把程序结束的很干净
+        }
     }
 }

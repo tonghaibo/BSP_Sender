@@ -54,6 +54,8 @@
             this.channelCount_tb = new System.Windows.Forms.TextBox();
             this.mqAddr_label = new System.Windows.Forms.Label();
             this.mqAddr_tb = new System.Windows.Forms.TextBox();
+            this.clientCount_label = new System.Windows.Forms.Label();
+            this.clientCount_tb = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -298,11 +300,31 @@
             this.mqAddr_tb.TabIndex = 44;
             this.mqAddr_tb.Text = "192.168.1.53";
             // 
+            // clientCount_label
+            // 
+            this.clientCount_label.AutoSize = true;
+            this.clientCount_label.Location = new System.Drawing.Point(601, 264);
+            this.clientCount_label.Name = "clientCount_label";
+            this.clientCount_label.Size = new System.Drawing.Size(101, 12);
+            this.clientCount_label.TabIndex = 45;
+            this.clientCount_label.Text = "客户端在线数量：";
+            // 
+            // clientCount_tb
+            // 
+            this.clientCount_tb.Enabled = false;
+            this.clientCount_tb.Location = new System.Drawing.Point(736, 256);
+            this.clientCount_tb.Name = "clientCount_tb";
+            this.clientCount_tb.Size = new System.Drawing.Size(119, 21);
+            this.clientCount_tb.TabIndex = 46;
+            this.clientCount_tb.Text = "0";
+            // 
             // FServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 510);
+            this.Controls.Add(this.clientCount_tb);
+            this.Controls.Add(this.clientCount_label);
             this.Controls.Add(this.mqAddr_tb);
             this.Controls.Add(this.mqAddr_label);
             this.Controls.Add(this.channelCount_tb);
@@ -325,6 +347,7 @@
             this.Controls.Add(this.btnStartService);
             this.Name = "FServer";
             this.Text = "服务端";
+            this.Load += new System.EventHandler(this.FServer_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -360,6 +383,8 @@
         private System.Windows.Forms.TextBox channelCount_tb;
         private System.Windows.Forms.Label mqAddr_label;
         private System.Windows.Forms.TextBox mqAddr_tb;
+        private System.Windows.Forms.Label clientCount_label;
+        private System.Windows.Forms.TextBox clientCount_tb;
     }
 }
 
