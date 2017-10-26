@@ -36,6 +36,11 @@ namespace BSP_Sender
         public static int clientCount = 0;//客户端在线数量
         public static object locker = new object();//添加一个对象作为锁
 
+        public int msgCount = 0;//发送到消息队列的消息条数
+
+        public static readonly int MAX_COUNT = 65535;   //计数器轮询最大值，超过该值重置为0
+        public static readonly int ORIGIN_COUNT = 0;   //计数器初始值0
+
         public FServer()
         {
             InitializeComponent();
@@ -132,9 +137,6 @@ namespace BSP_Sender
             }
         }
 
-
-        int msgCount = 0;
-        int i = 0;
         /// <summary>
         /// 接收消息
         /// </summary>
@@ -143,8 +145,6 @@ namespace BSP_Sender
         /// notify:使用AppendText向控件写信息将极大影响消息写入rabbitmq的速度，为了保证rabbitmq的写入速率，建议关闭向控件写入信息，用日志记录即可
         void protocolServer_NewRequestReceived(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            msgCount++;
-
             if (requestInfo.Body.errorlog != null) {
                 session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
             }
@@ -161,7 +161,7 @@ namespace BSP_Sender
             }
         }
 
-        int count1 = 0;//发送到消息队列消息条数
+        
         int connMod;//当前消息数模connection数,确定消息进哪个connection
         int channelMod;//当前消息数模channel数,确定消息进哪个channel
         IBasicProperties properties;
@@ -170,11 +170,11 @@ namespace BSP_Sender
         {
             var sendMessage = BitConverter.ToString(requestInfo.Body.getMsgBodyBytes()).Replace("-", " ");
             var sendbody = Encoding.UTF8.GetBytes(sendMessage);
-            
             try
             {
-                connMod = count1 % Int32.Parse(connCount.Text.Trim());
-                channelMod = count1 % Int32.Parse(channelCount_tb.Text.Trim());
+                
+                connMod = msgCount % Int32.Parse(connCount.Text.Trim());
+                channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
                 if (channelList.ContainsKey(connectionList[connMod]))
                 {
                     properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
@@ -183,9 +183,16 @@ namespace BSP_Sender
                                     routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
                                     body: sendbody);//消息体
-                    count1++;
-                    //pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                }                
+                    if (msgCount <= MAX_COUNT)
+                    {
+                        msgCount++;
+                    }
+                    else
+                    {
+                        msgCount = ORIGIN_COUNT;
+                    }
+                    pubMsgCount.Text = "当前计数器值：" + msgCount;
+                }
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
@@ -200,14 +207,14 @@ namespace BSP_Sender
         /// <param name="value"></param>
         void protocolServer_SessionClosed(HLProtocolSession session, SuperSocket.SocketBase.CloseReason value)
         {
+            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
+            session.Close();
             //锁
             lock (locker)
             {
                 clientCount--;
                 clientCount_tb.Text = clientCount.ToString();
             }
-            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
-            session.Close();
         }
 
         /// <summary>

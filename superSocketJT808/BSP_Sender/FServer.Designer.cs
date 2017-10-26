@@ -243,11 +243,11 @@
             // pubMsgCount
             // 
             this.pubMsgCount.AutoSize = true;
-            this.pubMsgCount.Location = new System.Drawing.Point(764, 29);
+            this.pubMsgCount.Location = new System.Drawing.Point(734, 29);
             this.pubMsgCount.Name = "pubMsgCount";
-            this.pubMsgCount.Size = new System.Drawing.Size(155, 12);
+            this.pubMsgCount.Size = new System.Drawing.Size(95, 12);
             this.pubMsgCount.TabIndex = 38;
-            this.pubMsgCount.Text = "发送到消息队列消息条数：0";
+            this.pubMsgCount.Text = "当前计数器值：0";
             // 
             // connCountlabel
             // 
