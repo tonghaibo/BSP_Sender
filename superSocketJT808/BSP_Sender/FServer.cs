@@ -168,8 +168,10 @@ namespace BSP_Sender
         //rabbitmq消息测试
         public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            var sendMessage = BitConverter.ToString(requestInfo.Body.getMsgBodyBytes()).Replace("-", " ");
-            var sendbody = Encoding.UTF8.GetBytes(sendMessage);
+            byte[] telphone = ExplainUtils.strToToHexByte(requestInfo.Body.msgHeader.terminalPhone);    //手机号转16进制字节数组
+            byte[] msgBody = requestInfo.Body.getMsgBodyBytes();    //消息体字节数组
+            //消息体前拼接设备号（手机号），2个byte数组合并
+            byte[] sendBody = ExplainUtils.twoByteConcat(telphone,msgBody);
             try
             {
                 
@@ -182,7 +184,7 @@ namespace BSP_Sender
                     channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
                                     routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
-                                    body: sendbody);//消息体
+                                    body: sendBody);//消息体
                     if (msgCount <= MAX_COUNT)
                     {
                         msgCount++;

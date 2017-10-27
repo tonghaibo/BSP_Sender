@@ -570,5 +570,13 @@ namespace BSP_Sender.Util
             return returnBytes;
         }
 
+        //将byte[] b拼接到byte[] a后面
+        public static byte[] twoByteConcat(byte[] a,byte[] b)
+        {
+            Array.Resize(ref a, a.Length + b.Length);
+            b.CopyTo(a, a.Length - b.Length);
+            return a;
+        }
+
     }
 }
