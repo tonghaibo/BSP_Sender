@@ -115,25 +115,27 @@ namespace BSP_Sender
             IConnection connection;
             IModel channel;
             List<IModel> channels;
-            //最多只允许创建connCount个socket连接
-            for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim());linkNum++)
-            {
-                connection = factory.CreateConnection();//创建Socket连接
-                connectionList.Add(connection);
-                channels = new List<IModel>();
-                //最多只允许创建channelCount个channel
-                for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
+            for (int queueNum = 0; queueNum < Int32.Parse(queueCount_tb.Text.Trim()); queueNum++) {
+                //最多只允许创建connCount个socket连接
+                for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim()); linkNum++)
                 {
-                    channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
-                    //声明queue
-                    channel.QueueDeclare(queue: QUEUE_NAME,//队列名
-                                        durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
-                                        exclusive: false,//排他性
-                                        autoDelete: false,//一旦客户端连接断开则自动删除queue
-                                        arguments: null);//如果安装了队列优先级插件则可以设置优先级
-                    channels.Add(channel);
+                    connection = factory.CreateConnection();//创建Socket连接
+                    connectionList.Add(connection);
+                    channels = new List<IModel>();
+                    //最多只允许创建channelCount个channel
+                    for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
+                    {
+                        channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
+                        //声明queue
+                        channel.QueueDeclare(queue: QUEUE_NAME + queueNum,//队列名
+                                            durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
+                                            exclusive: false,//排他性
+                                            autoDelete: false,//一旦客户端连接断开则自动删除queue
+                                            arguments: null);//如果安装了队列优先级插件则可以设置优先级
+                        channels.Add(channel);
+                    }
+                    channelList.Add(connection, channels);
                 }
-                channelList.Add(connection,channels);
             }
         }
 
@@ -164,6 +166,7 @@ namespace BSP_Sender
         
         int connMod;//当前消息数模connection数,确定消息进哪个connection
         int channelMod;//当前消息数模channel数,确定消息进哪个channel
+        int queueMod;//当前消息数模queue数,确定消息进哪个queue
         IBasicProperties properties;
         //rabbitmq消息测试
         public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
@@ -171,18 +174,19 @@ namespace BSP_Sender
             byte[] telphone = ExplainUtils.strToToHexByte(requestInfo.Body.msgHeader.terminalPhone);    //手机号转16进制字节数组
             byte[] msgBody = requestInfo.Body.getMsgBodyBytes();    //消息体字节数组
             //消息体前拼接设备号（手机号），2个byte数组合并
-            byte[] sendBody = ExplainUtils.twoByteConcat(telphone,msgBody);
+            byte[] sendBody = ExplainUtils.twoByteConcat(telphone, msgBody);
             try
             {
                 
                 connMod = msgCount % Int32.Parse(connCount.Text.Trim());
                 channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
+                queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim());
                 if (channelList.ContainsKey(connectionList[connMod]))
                 {
                     properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
                     properties.Persistent = true;
                     channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
-                                    routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
+                                    routingKey: QUEUE_NAME + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
                                     body: sendBody);//消息体
                     if (msgCount <= MAX_COUNT)
