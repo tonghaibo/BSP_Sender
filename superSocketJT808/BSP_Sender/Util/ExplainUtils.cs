@@ -379,7 +379,21 @@ namespace BSP_Sender.Util
                 return defaultVal;
             }
         }
-
+        
+        //截取指定长度byte[]，返回一个新的byte[]
+        public static byte[] subByte2Byte(byte[] data, int startIndex, int lenth)
+        {
+            try
+            {
+                byte[] tmp = new byte[lenth];
+                Buffer.BlockCopy(data, startIndex, tmp, 0, lenth);
+                return tmp;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
         public static String ParseBcdStringFromBytes(byte[] data, int startIndex, int lenth)
         {
             return ParseBcdStringFromBytes(data, startIndex, lenth, null);

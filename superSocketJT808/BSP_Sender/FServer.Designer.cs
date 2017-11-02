@@ -155,7 +155,7 @@
             this.portBox.Name = "portBox";
             this.portBox.Size = new System.Drawing.Size(132, 21);
             this.portBox.TabIndex = 39;
-            this.portBox.Text = "10009";
+            this.portBox.Text = "10008";
             // 
             // ipBox
             // 
@@ -255,7 +255,7 @@
             this.connCount.Name = "connCount";
             this.connCount.Size = new System.Drawing.Size(100, 21);
             this.connCount.TabIndex = 40;
-            this.connCount.Text = "10";
+            this.connCount.Text = "1";
             // 
             // channelCountlabel
             // 
@@ -289,7 +289,7 @@
             this.mqAddr_tb.Name = "mqAddr_tb";
             this.mqAddr_tb.Size = new System.Drawing.Size(119, 21);
             this.mqAddr_tb.TabIndex = 44;
-            this.mqAddr_tb.Text = "192.168.1.47";
+            this.mqAddr_tb.Text = "192.168.1.53";
             // 
             // clientCount_label
             // 
@@ -324,7 +324,7 @@
             this.queueCount_tb.Name = "queueCount_tb";
             this.queueCount_tb.Size = new System.Drawing.Size(100, 21);
             this.queueCount_tb.TabIndex = 48;
-            this.queueCount_tb.Text = "1";
+            this.queueCount_tb.Text = "10";
             // 
             // FServer
             // 

@@ -115,6 +115,9 @@ namespace BSP_Sender.Model
             /// </summary>
             public String terminalPhone { get; set; }
 
+            //byte[]的手机号
+            public byte[] telphoneByte { get; set; }
+
             /// <summary>
             /// 流水号
             /// </summary>

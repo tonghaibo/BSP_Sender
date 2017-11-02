@@ -25,7 +25,7 @@ namespace BSP_Sender
     public partial class FServer : Form
     {
         // 队列名称  
-        private readonly static string QUEUE_NAME = "task_queue";
+        private readonly static string QUEUE_NAME = "task_queue_";
         //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
         private static ConnectionFactory factory = new ConnectionFactory();
         private static List<IConnection> connectionList = new List<IConnection>();
@@ -115,7 +115,7 @@ namespace BSP_Sender
             IConnection connection;
             IModel channel;
             List<IModel> channels;
-            for (int queueNum = 0; queueNum < Int32.Parse(queueCount_tb.Text.Trim()); queueNum++) {
+            for (int queueNum = 1; queueNum <= Int32.Parse(queueCount_tb.Text.Trim()); queueNum++) {
                 //最多只允许创建connCount个socket连接
                 for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim()); linkNum++)
                 {
@@ -171,16 +171,14 @@ namespace BSP_Sender
         //rabbitmq消息测试
         public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            byte[] telphone = ExplainUtils.strToToHexByte(requestInfo.Body.msgHeader.terminalPhone);    //手机号转16进制字节数组
-            byte[] msgBody = requestInfo.Body.getMsgBodyBytes();    //消息体字节数组
             //消息体前拼接设备号（手机号），2个byte数组合并
-            byte[] sendBody = ExplainUtils.twoByteConcat(telphone, msgBody);
+            byte[] sendBody = ExplainUtils.twoByteConcat(requestInfo.Body.msgHeader.telphoneByte, requestInfo.Body.getMsgBodyBytes());
             try
             {
                 
                 connMod = msgCount % Int32.Parse(connCount.Text.Trim());
                 channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
-                queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim());
+                queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim()) + 1;
                 if (channelList.ContainsKey(connectionList[connMod]))
                 {
                     properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
