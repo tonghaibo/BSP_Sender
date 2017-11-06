@@ -74,6 +74,8 @@ namespace BSP_Sender.Codec
             msgHeader.hasSubPackage = (((msgBodyProps & 0x2000) >> 13) == 1);
             // [14-15] 1100,0000,0000,0000(C000)(保留位)
             msgHeader.reservedBit = (((msgBodyProps & 0xc000) >> 14) + "");
+            //3_0.byte[]终端手机号
+            msgHeader.telphoneByte = (ExplainUtils.subByte2Byte(bytes, 4 + 1, 6));
             // 3. 终端手机号 bcd[6]
             msgHeader.terminalPhone = (ExplainUtils.ParseBcdStringFromBytes(bytes, 4 + 1, 6));
             // 4. 消息流水号 word(16) 按发送顺序从 0 开始循环累加

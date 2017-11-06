@@ -73,6 +73,8 @@ namespace ZDZC_JT808Access
             int msgBodyProps = packageData.msgHeader.msgBodyPropsField;
             //终端手机号
             string terminalPhone = packageData.msgHeader.terminalPhone;
+            //byte[]手机号
+            byte[] telphoneByte = packageData.msgHeader.telphoneByte;
             //消息流水号
             int flowId = packageData.msgHeader.flowId;
 

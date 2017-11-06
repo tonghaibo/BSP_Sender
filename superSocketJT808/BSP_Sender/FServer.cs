@@ -25,7 +25,7 @@ namespace BSP_Sender
     public partial class FServer : Form
     {
         // 队列名称  
-        private readonly static string QUEUE_NAME = "task_queue";
+        private readonly static string QUEUE_NAME = "task_queue_";
         //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
         private static ConnectionFactory factory = new ConnectionFactory();
         private static List<IConnection> connectionList = new List<IConnection>();
@@ -35,6 +35,11 @@ namespace BSP_Sender
 
         public static int clientCount = 0;//客户端在线数量
         public static object locker = new object();//添加一个对象作为锁
+
+        public int msgCount = 0;//发送到消息队列的消息条数
+
+        public static readonly int MAX_COUNT = 65535;   //计数器轮询最大值，超过该值重置为0
+        public static readonly int ORIGIN_COUNT = 0;   //计数器初始值0
 
         public FServer()
         {
@@ -110,31 +115,30 @@ namespace BSP_Sender
             IConnection connection;
             IModel channel;
             List<IModel> channels;
-            //最多只允许创建connCount个socket连接
-            for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim());linkNum++)
-            {
-                connection = factory.CreateConnection();//创建Socket连接
-                connectionList.Add(connection);
-                channels = new List<IModel>();
-                //最多只允许创建channelCount个channel
-                for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
+            for (int queueNum = 1; queueNum <= Int32.Parse(queueCount_tb.Text.Trim()); queueNum++) {
+                //最多只允许创建connCount个socket连接
+                for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim()); linkNum++)
                 {
-                    channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
-                    //声明queue
-                    channel.QueueDeclare(queue: QUEUE_NAME,//队列名
-                                        durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
-                                        exclusive: false,//排他性
-                                        autoDelete: false,//一旦客户端连接断开则自动删除queue
-                                        arguments: null);//如果安装了队列优先级插件则可以设置优先级
-                    channels.Add(channel);
+                    connection = factory.CreateConnection();//创建Socket连接
+                    connectionList.Add(connection);
+                    channels = new List<IModel>();
+                    //最多只允许创建channelCount个channel
+                    for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
+                    {
+                        channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
+                        //声明queue
+                        channel.QueueDeclare(queue: QUEUE_NAME + queueNum,//队列名
+                                            durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
+                                            exclusive: false,//排他性
+                                            autoDelete: false,//一旦客户端连接断开则自动删除queue
+                                            arguments: null);//如果安装了队列优先级插件则可以设置优先级
+                        channels.Add(channel);
+                    }
+                    channelList.Add(connection, channels);
                 }
-                channelList.Add(connection,channels);
             }
         }
 
-
-        int msgCount = 0;
-        int i = 0;
         /// <summary>
         /// 接收消息
         /// </summary>
@@ -143,8 +147,6 @@ namespace BSP_Sender
         /// notify:使用AppendText向控件写信息将极大影响消息写入rabbitmq的速度，为了保证rabbitmq的写入速率，建议关闭向控件写入信息，用日志记录即可
         void protocolServer_NewRequestReceived(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            msgCount++;
-
             if (requestInfo.Body.errorlog != null) {
                 session.Logger.Error("\r\n消息解析失败，格式错误！IP:" + session.RemoteEndPoint + "发送：：\r\n" + requestInfo.Body.all2);
             }
@@ -161,31 +163,40 @@ namespace BSP_Sender
             }
         }
 
-        int count1 = 0;//发送到消息队列消息条数
+        
         int connMod;//当前消息数模connection数,确定消息进哪个connection
         int channelMod;//当前消息数模channel数,确定消息进哪个channel
+        int queueMod;//当前消息数模queue数,确定消息进哪个queue
         IBasicProperties properties;
         //rabbitmq消息测试
         public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
         {
-            var sendMessage = BitConverter.ToString(requestInfo.Body.getMsgBodyBytes()).Replace("-", " ");
-            var sendbody = Encoding.UTF8.GetBytes(sendMessage);
-            
+            //消息体前拼接设备号（手机号），2个byte数组合并
+            byte[] sendBody = ExplainUtils.twoByteConcat(requestInfo.Body.msgHeader.telphoneByte, requestInfo.Body.getMsgBodyBytes());
             try
             {
-                connMod = count1 % Int32.Parse(connCount.Text.Trim());
-                channelMod = count1 % Int32.Parse(channelCount_tb.Text.Trim());
+                
+                connMod = msgCount % Int32.Parse(connCount.Text.Trim());
+                channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
+                queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim()) + 1;
                 if (channelList.ContainsKey(connectionList[connMod]))
                 {
                     properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
                     properties.Persistent = true;
                     channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
-                                    routingKey: QUEUE_NAME,//如果存在exchange，则消息被发送到名为task_queue的客户端
+                                    routingKey: QUEUE_NAME + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
-                                    body: sendbody);//消息体
-                    count1++;
-                    //pubMsgCount.Text = "发送到消息队列消息条数：" + count1.ToString();
-                }                
+                                    body: sendBody);//消息体
+                    if (msgCount <= MAX_COUNT)
+                    {
+                        msgCount++;
+                    }
+                    else
+                    {
+                        msgCount = ORIGIN_COUNT;
+                    }
+                    pubMsgCount.Text = "当前计数器值：" + msgCount;
+                }
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
             {
@@ -200,14 +211,14 @@ namespace BSP_Sender
         /// <param name="value"></param>
         void protocolServer_SessionClosed(HLProtocolSession session, SuperSocket.SocketBase.CloseReason value)
         {
+            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
+            session.Close();
             //锁
             lock (locker)
             {
                 clientCount--;
                 clientCount_tb.Text = clientCount.ToString();
             }
-            session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
-            session.Close();
         }
 
         /// <summary>

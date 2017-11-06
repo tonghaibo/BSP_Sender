@@ -46,7 +46,6 @@
             this.connMsg = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.pubMsgCount = new System.Windows.Forms.Label();
             this.connCountlabel = new System.Windows.Forms.Label();
             this.connCount = new System.Windows.Forms.TextBox();
@@ -56,6 +55,8 @@
             this.mqAddr_tb = new System.Windows.Forms.TextBox();
             this.clientCount_label = new System.Windows.Forms.Label();
             this.clientCount_tb = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.queueCount_tb = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -214,7 +215,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(280, 265);
+            this.label4.Location = new System.Drawing.Point(280, 264);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 12);
             this.label4.TabIndex = 35;
@@ -222,7 +223,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(359, 260);
+            this.button3.Location = new System.Drawing.Point(359, 255);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 36;
@@ -230,24 +231,14 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(457, 260);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(90, 23);
-            this.button4.TabIndex = 37;
-            this.button4.Text = "复制消息内容";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // pubMsgCount
             // 
             this.pubMsgCount.AutoSize = true;
-            this.pubMsgCount.Location = new System.Drawing.Point(764, 29);
+            this.pubMsgCount.Location = new System.Drawing.Point(734, 29);
             this.pubMsgCount.Name = "pubMsgCount";
-            this.pubMsgCount.Size = new System.Drawing.Size(155, 12);
+            this.pubMsgCount.Size = new System.Drawing.Size(95, 12);
             this.pubMsgCount.TabIndex = 38;
-            this.pubMsgCount.Text = "发送到消息队列消息条数：0";
+            this.pubMsgCount.Text = "当前计数器值：0";
             // 
             // connCountlabel
             // 
@@ -264,7 +255,7 @@
             this.connCount.Name = "connCount";
             this.connCount.Size = new System.Drawing.Size(100, 21);
             this.connCount.TabIndex = 40;
-            this.connCount.Text = "10";
+            this.connCount.Text = "1";
             // 
             // channelCountlabel
             // 
@@ -303,7 +294,7 @@
             // clientCount_label
             // 
             this.clientCount_label.AutoSize = true;
-            this.clientCount_label.Location = new System.Drawing.Point(601, 264);
+            this.clientCount_label.Location = new System.Drawing.Point(629, 260);
             this.clientCount_label.Name = "clientCount_label";
             this.clientCount_label.Size = new System.Drawing.Size(101, 12);
             this.clientCount_label.TabIndex = 45;
@@ -318,11 +309,30 @@
             this.clientCount_tb.TabIndex = 46;
             this.clientCount_tb.Text = "0";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(456, 260);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 47;
+            this.label5.Text = "队列数：";
+            // 
+            // queueCount_tb
+            // 
+            this.queueCount_tb.Location = new System.Drawing.Point(515, 255);
+            this.queueCount_tb.Name = "queueCount_tb";
+            this.queueCount_tb.Size = new System.Drawing.Size(100, 21);
+            this.queueCount_tb.TabIndex = 48;
+            this.queueCount_tb.Text = "10";
+            // 
             // FServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1002, 510);
+            this.Controls.Add(this.queueCount_tb);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.clientCount_tb);
             this.Controls.Add(this.clientCount_label);
             this.Controls.Add(this.mqAddr_tb);
@@ -332,7 +342,6 @@
             this.Controls.Add(this.connCount);
             this.Controls.Add(this.connCountlabel);
             this.Controls.Add(this.pubMsgCount);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.connMsg);
@@ -373,7 +382,6 @@
         private System.Windows.Forms.TextBox connMsg;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox portBox;
         private System.Windows.Forms.TextBox ipBox;
         private System.Windows.Forms.Label pubMsgCount;
@@ -385,6 +393,8 @@
         private System.Windows.Forms.TextBox mqAddr_tb;
         private System.Windows.Forms.Label clientCount_label;
         private System.Windows.Forms.TextBox clientCount_tb;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox queueCount_tb;
     }
 }
 

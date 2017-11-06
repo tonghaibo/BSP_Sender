@@ -379,7 +379,21 @@ namespace BSP_Sender.Util
                 return defaultVal;
             }
         }
-
+        
+        //截取指定长度byte[]，返回一个新的byte[]
+        public static byte[] subByte2Byte(byte[] data, int startIndex, int lenth)
+        {
+            try
+            {
+                byte[] tmp = new byte[lenth];
+                Buffer.BlockCopy(data, startIndex, tmp, 0, lenth);
+                return tmp;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
         public static String ParseBcdStringFromBytes(byte[] data, int startIndex, int lenth)
         {
             return ParseBcdStringFromBytes(data, startIndex, lenth, null);
@@ -568,6 +582,14 @@ namespace BSP_Sender.Util
             for (int i = 0; i < returnBytes.Length; i++)
                 returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
             return returnBytes;
+        }
+
+        //将byte[] b拼接到byte[] a后面
+        public static byte[] twoByteConcat(byte[] a,byte[] b)
+        {
+            Array.Resize(ref a, a.Length + b.Length);
+            b.CopyTo(a, a.Length - b.Length);
+            return a;
         }
 
     }
