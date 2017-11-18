@@ -9,3 +9,13 @@ E:\基础服务平台\TCP\ChatServer\superSocketJT808\BSP_Sender\obj\x86\Debug\B
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.exe
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.pdb
 E:\基础服务平台\TCP\ChatServer\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.csprojResolveAssemblyReference.cache
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\bin\Debug\Config\log4net.config
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\bin\Debug\Config\log4net.unix.config
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\bin\Debug\BSP_Sender.exe.config
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\bin\Debug\BSP_Sender.exe
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\bin\Debug\BSP_Sender.pdb
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.FServer.resources
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.Properties.Resources.resources
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.csproj.GenerateResource.Cache
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.exe
+E:\基础服务平台\gitlab\BSP_Sender\superSocketJT808\BSP_Sender\obj\x86\Debug\BSP_Sender.pdb

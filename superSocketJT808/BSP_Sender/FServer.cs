@@ -25,11 +25,12 @@ namespace BSP_Sender
     public partial class FServer : Form
     {
         // 队列名称  
-        private readonly static string QUEUE_NAME = "task_queue_";
+        private readonly static string LOCATION_QUEUE_NAME = "task_queue_";
         //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
-        private static ConnectionFactory factory = new ConnectionFactory();
-        private static List<IConnection> connectionList = new List<IConnection>();
-        Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
+        //定位信息
+        private static ConnectionFactory locationFactory = new ConnectionFactory();     
+        private static List<IConnection> locationConnList = new List<IConnection>();
+        Dictionary<IConnection, List<IModel>> locationChannelList = new Dictionary<IConnection, List<IModel>>();
         private JT808ProtocolServer protocolServer = new JT808ProtocolServer();
         private ServerConfig serverConfig = new ServerConfig();
 
@@ -105,29 +106,48 @@ namespace BSP_Sender
             btnStartService.Enabled = false;
             btnExit.Enabled = true;
 
-            //启动好服务即将相应的connection和channel创建好
-            factory.HostName = mqAddr_tb.Text.Trim();
-            factory.Port = 5672;
-            factory.UserName = "admin";
-            factory.Password = "123456";
-            factory.RequestedHeartbeat = 60;
-            factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
+            //设置ConnectionFactory属性
+            locationFactory = setConnectionFactory(mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(),60,true);
+            //启动好服务即将相应的connection,channel,queue创建好
+            MQAttribute mqAttr = createMqConnChannelQueue(LOCATION_QUEUE_NAME,locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
+            locationConnList = mqAttr.connectionList;
+            locationChannelList = mqAttr.channelList;
+            //所有文本框只读
+            textBoxReadOnly();
+            ipBox.ReadOnly = true;
+            portBox.ReadOnly = true;
+        }
+
+        /// <summary>
+        /// 创建connection,channel,queue
+        /// </summary>
+        /// <param name="queueName">消息队列名</param>
+        /// <param name="factory">连接工厂</param>
+        /// <param name="queueCount">对列数</param>
+        /// <param name="connCount">连接数</param>
+        /// <param name="channleCount">通道数</param>
+        /// <returns></returns>
+        public MQAttribute createMqConnChannelQueue(string queueName,ConnectionFactory factory,int queueCount,int connCount,int channleCount)
+        {
+            List<IConnection> connList = new List<IConnection>();
+            Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
             IConnection connection;
             IModel channel;
             List<IModel> channels;
-            for (int queueNum = 1; queueNum <= Int32.Parse(queueCount_tb.Text.Trim()); queueNum++) {
+            for (int queueNum = 1; queueNum <= queueCount; queueNum++)
+            {
                 //最多只允许创建connCount个socket连接
-                for (int linkNum = 0; linkNum < Int32.Parse(connCount.Text.Trim()); linkNum++)
+                for (int linkNum = 0; linkNum < connCount; linkNum++)
                 {
                     connection = factory.CreateConnection();//创建Socket连接
-                    connectionList.Add(connection);
+                    connList.Add(connection);
                     channels = new List<IModel>();
                     //最多只允许创建channelCount个channel
-                    for (int channelNum = 0; channelNum < Int32.Parse(channelCount_tb.Text.Trim()); channelNum++)
+                    for (int channelNum = 0; channelNum < channleCount; channelNum++)
                     {
                         channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
                         //声明queue
-                        channel.QueueDeclare(queue: QUEUE_NAME + queueNum,//队列名
+                        channel.QueueDeclare(queue: queueName + queueNum,//队列名
                                             durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
                                             exclusive: false,//排他性
                                             autoDelete: false,//一旦客户端连接断开则自动删除queue
@@ -135,6 +155,42 @@ namespace BSP_Sender
                         channels.Add(channel);
                     }
                     channelList.Add(connection, channels);
+                }
+            }
+            MQAttribute mqAttr = new MQAttribute(connList,channelList);
+            return mqAttr;
+        }
+
+        /// <summary>
+        /// 设置ConnectionFactory对象实例属性
+        /// </summary>
+        /// <param name="hostName">主机名</param>
+        /// <param name="port">端口号</param>
+        /// <param name="username">mq用户名</param>
+        /// <param name="passwd">mq密码</param>
+        /// <param name="reqHeartBeat">请求心跳</param>
+        /// <param name="autoRecoveryEnabled">是否自动恢复重连</param>
+        /// <returns></returns>
+        public ConnectionFactory setConnectionFactory(string hostName,int port,string username,string passwd,int reqHeartBeat,bool autoRecoveryEnabled)
+        {
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.HostName = mqAddr_tb.Text.Trim();
+            factory.Port = Int32.Parse(location_portVal.Text.Trim());
+            factory.UserName = location_usernameVal.Text.Trim();
+            factory.Password = location_pwdVal.Text.Trim();
+            factory.RequestedHeartbeat = 60;
+            factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
+            return factory;
+        }
+
+        //文本框只读
+        public void textBoxReadOnly()
+        {
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    (control as TextBox).ReadOnly = true;
                 }
             }
         }
@@ -160,6 +216,14 @@ namespace BSP_Sender
             if (ExplainUtils.msg_id_terminal_location_info_upload == requestInfo.Body.msgHeader.msgId)
             {
                 rabbitMqTest(session, requestInfo);
+                string stralc = requestInfo.Body.locationInfo.alc;
+                int alc = Convert.ToInt32(stralc, 2);
+                if (alc > 0)
+                {
+                    //报警信息
+                    
+
+                }
             }
         }
 
@@ -179,12 +243,12 @@ namespace BSP_Sender
                 connMod = msgCount % Int32.Parse(connCount.Text.Trim());
                 channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
                 queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim()) + 1;
-                if (channelList.ContainsKey(connectionList[connMod]))
+                if (locationChannelList.ContainsKey(locationConnList[connMod]))
                 {
-                    properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
+                    properties = locationChannelList[locationConnList[connMod]][channelMod].CreateBasicProperties();
                     properties.Persistent = true;
-                    channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
-                                    routingKey: QUEUE_NAME + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
+                    locationChannelList[locationConnList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
+                                    routingKey: LOCATION_QUEUE_NAME + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
                                     body: sendBody);//消息体
                     if (msgCount <= MAX_COUNT)
@@ -240,9 +304,9 @@ namespace BSP_Sender
         public void closeChanConn()
         {
             //关闭channel Dictionary<IConnection, List<IModel>>
-            if (null != channelList)
+            if (null != locationChannelList)
             {
-                foreach (List<IModel> channels in channelList.Values)
+                foreach (List<IModel> channels in locationChannelList.Values)
                 {
                     foreach(IModel channel in channels)
                     {
@@ -254,9 +318,9 @@ namespace BSP_Sender
                 }
             }
             //关闭connection
-            if (null != connectionList)
+            if (null != locationConnList)
             {
-                foreach (IConnection connection in connectionList)
+                foreach (IConnection connection in locationConnList)
                 {
                     if (null != connection)
                     {
@@ -334,23 +398,6 @@ namespace BSP_Sender
             Application.Exit();
         }
 
-        
-        //测试消息发送
-        public void testMsgSend()
-        {
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            txtMsg.Text = "";
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (txtMsg.Text == "") return;
-            Clipboard.SetDataObject(txtMsg.Text);
-            MessageBox.Show("文本内容已复制到剪切板！");
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             connMsg.Text = "";
@@ -380,6 +427,18 @@ namespace BSP_Sender
         private void FServer_FormClosing(object sender, FormClosingEventArgs e)
         {
             System.Environment.Exit(0); //最彻底的退出方式，不管什么线程都被强制退出，把程序结束的很干净
+        }
+    }
+
+    //mq消息队列实体对象
+    public class MQAttribute
+    {
+        public List<IConnection> connectionList { get; set; }
+        public Dictionary<IConnection, List<IModel>> channelList { get; set; }
+        public MQAttribute(List<IConnection> connectionList, Dictionary<IConnection, List<IModel>> channelList)
+        {
+            this.connectionList = connectionList;
+            this.channelList = channelList;
         }
     }
 }
