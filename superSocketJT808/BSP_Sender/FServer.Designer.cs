@@ -204,7 +204,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(270, 391);
+            this.button3.Location = new System.Drawing.Point(270, 393);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 36;
@@ -270,7 +270,7 @@
             this.mqAddr_tb.Name = "mqAddr_tb";
             this.mqAddr_tb.Size = new System.Drawing.Size(119, 21);
             this.mqAddr_tb.TabIndex = 44;
-            this.mqAddr_tb.Text = "192.168.1.47";
+            this.mqAddr_tb.Text = "192.168.1.74";
             // 
             // clientCount_label
             // 
@@ -305,7 +305,7 @@
             this.queueCount_tb.Name = "queueCount_tb";
             this.queueCount_tb.Size = new System.Drawing.Size(100, 21);
             this.queueCount_tb.TabIndex = 48;
-            this.queueCount_tb.Text = "10";
+            this.queueCount_tb.Text = "2";
             // 
             // location_port
             // 
@@ -383,7 +383,7 @@
             this.alarm_username.Name = "alarm_username";
             this.alarm_username.Size = new System.Drawing.Size(100, 21);
             this.alarm_username.TabIndex = 71;
-            this.alarm_username.Text = "alarm";
+            this.alarm_username.Text = "admin";
             // 
             // label8
             // 
@@ -400,7 +400,7 @@
             this.alarmPort.Name = "alarmPort";
             this.alarmPort.Size = new System.Drawing.Size(100, 21);
             this.alarmPort.TabIndex = 69;
-            this.alarmPort.Text = "5673";
+            this.alarmPort.Text = "5672";
             // 
             // label9
             // 
@@ -417,7 +417,7 @@
             this.alarm_queueCount.Name = "alarm_queueCount";
             this.alarm_queueCount.Size = new System.Drawing.Size(100, 21);
             this.alarm_queueCount.TabIndex = 67;
-            this.alarm_queueCount.Text = "10";
+            this.alarm_queueCount.Text = "2";
             // 
             // label10
             // 

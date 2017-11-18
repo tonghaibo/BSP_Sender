@@ -2,45 +2,42 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using BSP_Sender.Util;
-using BSP_Sender.Codec;
-using BSP_Sender.Model;
 using System.IO;
-using BSP_Sender.DB;
 using RabbitMQ.Client;
-using System.Diagnostics;
 using ZDZC_JT808Access;
 using SuperSocket.SocketBase.Config;
 using System.Configuration;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Framing.Impl;
-using SuperSocket.SocketBase;
-using System.Collections.Concurrent;
 
 namespace BSP_Sender
 {
     public partial class FServer : Form
     {
         // 队列名称  
-        private readonly static string LOCATION_QUEUE_NAME = "task_queue_";
+        private readonly static string LOCATION_QUEUE_NAME = "task_queue_"; //定位
+        private readonly static string ALARM_QUEUE_NAME = LOCATION_QUEUE_NAME + "alarm_"; //报警
         //全局变量，长连接，如果在接收消息方法体内声明对象则会不断创建销毁socket连接，消耗系统资源，极大影响消息推送速率
         //定位信息
         private static ConnectionFactory locationFactory = new ConnectionFactory();     
         private static List<IConnection> locationConnList = new List<IConnection>();
         Dictionary<IConnection, List<IModel>> locationChannelList = new Dictionary<IConnection, List<IModel>>();
+        //报警信息
+        private static ConnectionFactory alarmFactory = new ConnectionFactory();
+        private static List<IConnection> alarmConnList = new List<IConnection>();
+        Dictionary<IConnection, List<IModel>> alarmChannelList = new Dictionary<IConnection, List<IModel>>();
         private JT808ProtocolServer protocolServer = new JT808ProtocolServer();
         private ServerConfig serverConfig = new ServerConfig();
 
-        public static int clientCount = 0;//客户端在线数量
+        public static volatile int clientCount = 0;//客户端在线数量
         public static object locker = new object();//添加一个对象作为锁
 
-        public int msgCount = 0;//发送到消息队列的消息条数
-
+        public int locationMsgCount = 0;//定位消息，发送到消息队列的消息条数
+        public int alarmMsgCount = 0;//报警消息，发送到消息队列的消息条数
         public static readonly int MAX_COUNT = 65535;   //计数器轮询最大值，超过该值重置为0
         public static readonly int ORIGIN_COUNT = 0;   //计数器初始值0
+        string[] generateCountType = new string[] { "location","alarm"};    //计数器类型数组，定位/报警
 
         public FServer()
         {
@@ -106,12 +103,21 @@ namespace BSP_Sender
             btnStartService.Enabled = false;
             btnExit.Enabled = true;
 
+            //定位信息
             //设置ConnectionFactory属性
             locationFactory = setConnectionFactory(mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(),60,true);
             //启动好服务即将相应的connection,channel,queue创建好
             MQAttribute mqAttr = createMqConnChannelQueue(LOCATION_QUEUE_NAME,locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
             locationConnList = mqAttr.connectionList;
             locationChannelList = mqAttr.channelList;
+            //报警信息
+            //设置ConnectionFactory属性
+            alarmFactory = setConnectionFactory(alarmAddr.Text.Trim(), Int32.Parse(alarmPort.Text.Trim()), alarm_username.Text.Trim(), alarm_pwd.Text.Trim(), 60, true);
+            //启动好服务即将相应的connection,channel,queue创建好
+            MQAttribute mqAttr_alarm = createMqConnChannelQueue(ALARM_QUEUE_NAME, alarmFactory, Int32.Parse(alarm_queueCount.Text.Trim()), Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()));
+            alarmConnList = mqAttr_alarm.connectionList;
+            alarmChannelList = mqAttr_alarm.channelList;
+
             //所有文本框只读
             textBoxReadOnly();
             ipBox.ReadOnly = true;
@@ -123,7 +129,7 @@ namespace BSP_Sender
         /// </summary>
         /// <param name="queueName">消息队列名</param>
         /// <param name="factory">连接工厂</param>
-        /// <param name="queueCount">对列数</param>
+        /// <param name="queueCount">队列数</param>
         /// <param name="connCount">连接数</param>
         /// <param name="channleCount">通道数</param>
         /// <returns></returns>
@@ -171,15 +177,15 @@ namespace BSP_Sender
         /// <param name="reqHeartBeat">请求心跳</param>
         /// <param name="autoRecoveryEnabled">是否自动恢复重连</param>
         /// <returns></returns>
-        public ConnectionFactory setConnectionFactory(string hostName,int port,string username,string passwd,int reqHeartBeat,bool autoRecoveryEnabled)
+        public ConnectionFactory setConnectionFactory(string hostName,int port,string username,string passwd,ushort reqHeartBeat,bool autoRecoveryEnabled)
         {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.HostName = mqAddr_tb.Text.Trim();
-            factory.Port = Int32.Parse(location_portVal.Text.Trim());
-            factory.UserName = location_usernameVal.Text.Trim();
-            factory.Password = location_pwdVal.Text.Trim();
-            factory.RequestedHeartbeat = 60;
-            factory.AutomaticRecoveryEnabled = true;   //设置端口后自动恢复连接属性即可
+            factory.HostName = hostName;
+            factory.Port = port;
+            factory.UserName = username;
+            factory.Password = passwd;
+            factory.RequestedHeartbeat = reqHeartBeat;
+            factory.AutomaticRecoveryEnabled = autoRecoveryEnabled;   //设置端口后自动恢复连接属性即可
             return factory;
         }
 
@@ -215,51 +221,94 @@ namespace BSP_Sender
             //只有位置上报信息才往rabbitmq里面扔，过滤掉心跳包
             if (ExplainUtils.msg_id_terminal_location_info_upload == requestInfo.Body.msgHeader.msgId)
             {
-                rabbitMqTest(session, requestInfo);
+                lock (locker)
+                {
+                    //位置上报信息
+                    rabbitMqPublish(session, requestInfo, generateCountType[0], Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()), Int32.Parse(queueCount_tb.Text.Trim()), locationConnList, locationChannelList, LOCATION_QUEUE_NAME);
+                }
                 string stralc = requestInfo.Body.locationInfo.alc;
                 int alc = Convert.ToInt32(stralc, 2);
                 if (alc > 0)
                 {
                     //报警信息
-                    
-
+                    lock (locker)
+                    {
+                        rabbitMqPublish(session, requestInfo, generateCountType[1], Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()), Int32.Parse(alarm_queueCount.Text.Trim()), alarmConnList, alarmChannelList, ALARM_QUEUE_NAME);
+                    }
                 }
             }
         }
 
-        
+        int msgCount;   //计数器临时变量
         int connMod;//当前消息数模connection数,确定消息进哪个connection
         int channelMod;//当前消息数模channel数,确定消息进哪个channel
         int queueMod;//当前消息数模queue数,确定消息进哪个queue
         IBasicProperties properties;
-        //rabbitmq消息测试
-        public void rabbitMqTest(HLProtocolSession session, HLProtocolRequestInfo requestInfo)
+        /// <summary>
+        /// rabbitmq消息推送
+        /// </summary>
+        /// <param name="session">会话对象</param>
+        /// <param name="requestInfo">请求对象</param>
+        /// <param name="countType">计数器类型：定位/报警</param>
+        /// <param name="connCount">连接数</param>
+        /// <param name="channelCount">通道数</param>
+        /// <param name="queueCount">队列数</param>
+        /// <param name="connectionList">连接集合</param>
+        /// <param name="channelList">通道集合</param>
+        /// <param name="queneName">队列名</param>
+        public void rabbitMqPublish(HLProtocolSession session, HLProtocolRequestInfo requestInfo,string countType ,int connCount,int channelCount,int queueCount, List<IConnection> connectionList, Dictionary<IConnection, List<IModel>> channelList,string queneName)
         {
             //消息体前拼接设备号（手机号），2个byte数组合并
             byte[] sendBody = ExplainUtils.twoByteConcat(requestInfo.Body.msgHeader.telphoneByte, requestInfo.Body.getMsgBodyBytes());
             try
             {
-                
-                connMod = msgCount % Int32.Parse(connCount.Text.Trim());
-                channelMod = msgCount % Int32.Parse(channelCount_tb.Text.Trim());
-                queueMod = msgCount % Int32.Parse(queueCount_tb.Text.Trim()) + 1;
-                if (locationChannelList.ContainsKey(locationConnList[connMod]))
+
+                if(countType.Equals(generateCountType[0]))
+                {  
+                    //定位消息
+                    msgCount = locationMsgCount;
+                }else
                 {
-                    properties = locationChannelList[locationConnList[connMod]][channelMod].CreateBasicProperties();
+                    //报警消息
+                    msgCount = alarmMsgCount;
+                }
+                connMod = msgCount % connCount;
+                channelMod = msgCount % channelCount;
+                queueMod = msgCount % (queueCount + 1);
+                if (channelList.ContainsKey(connectionList[connMod]))
+                {
+                    properties = channelList[connectionList[connMod]][channelMod].CreateBasicProperties();
                     properties.Persistent = true;
-                    locationChannelList[locationConnList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
-                                    routingKey: LOCATION_QUEUE_NAME + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
+                    channelList[connectionList[connMod]][channelMod].BasicPublish(exchange: "",//exchange名称
+                                    routingKey: queneName + queueMod,//如果存在exchange，则消息被发送到名为task_queue的客户端
                                     basicProperties: properties,
                                     body: sendBody);//消息体
                     if (msgCount <= MAX_COUNT)
                     {
-                        msgCount++;
+                        if (countType.Equals(generateCountType[0]))
+                        {
+                            locationMsgCount++;
+                            pubMsgCount.Text = "当前计数器值：" + locationMsgCount;
+                        }
+                        else
+                        {
+                            alarmMsgCount++;
+                            alarm_count.Text = "当前计数器值：" + alarmMsgCount;
+                        }
                     }
                     else
                     {
-                        msgCount = ORIGIN_COUNT;
+                        if (countType.Equals(generateCountType[0]))
+                        {
+                            locationMsgCount = ORIGIN_COUNT;
+                            pubMsgCount.Text = "当前计数器值：" + locationMsgCount;
+                        }
+                        else
+                        {
+                            alarmMsgCount = ORIGIN_COUNT;
+                            alarm_count.Text = "当前计数器值：" + alarmMsgCount;
+                        }
                     }
-                    pubMsgCount.Text = "当前计数器值：" + msgCount;
                 }
             }
             catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException ex)
@@ -304,23 +353,37 @@ namespace BSP_Sender
         public void closeChanConn()
         {
             //关闭channel Dictionary<IConnection, List<IModel>>
-            if (null != locationChannelList)
+            closeChannel(locationChannelList);
+            closeChannel(alarmChannelList);
+            //关闭connection
+            closeConnection(locationConnList);
+            closeConnection(alarmConnList);
+        }
+
+        //关闭channel
+        public void closeChannel(Dictionary<IConnection, List<IModel>> channelList)
+        {
+            if (null != channelList)
             {
-                foreach (List<IModel> channels in locationChannelList.Values)
+                foreach (List<IModel> channels in channelList.Values)
                 {
-                    foreach(IModel channel in channels)
+                    foreach (IModel channel in channels)
                     {
-                        if(null != channel)
+                        if (null != channel)
                         {
                             channel.Close();
                         }
                     }
                 }
             }
-            //关闭connection
-            if (null != locationConnList)
+        }
+
+        //关闭connection
+        public void closeConnection(List<IConnection> connectionList)
+        {
+            if (null != connectionList)
             {
-                foreach (IConnection connection in locationConnList)
+                foreach (IConnection connection in connectionList)
                 {
                     if (null != connection)
                     {
@@ -329,7 +392,6 @@ namespace BSP_Sender
                 }
             }
         }
-
 
         /// <summary>  
         /// 获取外网ip地址  
