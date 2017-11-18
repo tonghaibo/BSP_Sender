@@ -76,7 +76,15 @@
             this.alarm_count = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.yes_push_location_rb = new System.Windows.Forms.RadioButton();
+            this.no_push_location_rb = new System.Windows.Forms.RadioButton();
+            this.no_push_alarm_rb = new System.Windows.Forms.RadioButton();
+            this.yes_push_alarm_rb = new System.Windows.Forms.RadioButton();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStartService
@@ -186,11 +194,11 @@
             // 
             // connMsg
             // 
-            this.connMsg.Location = new System.Drawing.Point(372, 329);
+            this.connMsg.Location = new System.Drawing.Point(372, 337);
             this.connMsg.Multiline = true;
             this.connMsg.Name = "connMsg";
             this.connMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.connMsg.Size = new System.Drawing.Size(614, 123);
+            this.connMsg.Size = new System.Drawing.Size(614, 115);
             this.connMsg.TabIndex = 34;
             // 
             // label4
@@ -215,7 +223,7 @@
             // pubMsgCount
             // 
             this.pubMsgCount.AutoSize = true;
-            this.pubMsgCount.Location = new System.Drawing.Point(555, 148);
+            this.pubMsgCount.Location = new System.Drawing.Point(569, 62);
             this.pubMsgCount.Name = "pubMsgCount";
             this.pubMsgCount.Size = new System.Drawing.Size(95, 12);
             this.pubMsgCount.TabIndex = 38;
@@ -224,7 +232,7 @@
             // connCountlabel
             // 
             this.connCountlabel.AutoSize = true;
-            this.connCountlabel.Location = new System.Drawing.Point(289, 64);
+            this.connCountlabel.Location = new System.Drawing.Point(289, 92);
             this.connCountlabel.Name = "connCountlabel";
             this.connCountlabel.Size = new System.Drawing.Size(53, 12);
             this.connCountlabel.TabIndex = 39;
@@ -232,7 +240,7 @@
             // 
             // connCount
             // 
-            this.connCount.Location = new System.Drawing.Point(343, 61);
+            this.connCount.Location = new System.Drawing.Point(343, 89);
             this.connCount.Name = "connCount";
             this.connCount.Size = new System.Drawing.Size(119, 21);
             this.connCount.TabIndex = 40;
@@ -241,7 +249,7 @@
             // channelCountlabel
             // 
             this.channelCountlabel.AutoSize = true;
-            this.channelCountlabel.Location = new System.Drawing.Point(478, 64);
+            this.channelCountlabel.Location = new System.Drawing.Point(478, 92);
             this.channelCountlabel.Name = "channelCountlabel";
             this.channelCountlabel.Size = new System.Drawing.Size(53, 12);
             this.channelCountlabel.TabIndex = 41;
@@ -249,7 +257,7 @@
             // 
             // channelCount_tb
             // 
-            this.channelCount_tb.Location = new System.Drawing.Point(537, 61);
+            this.channelCount_tb.Location = new System.Drawing.Point(537, 89);
             this.channelCount_tb.Name = "channelCount_tb";
             this.channelCount_tb.Size = new System.Drawing.Size(100, 21);
             this.channelCount_tb.TabIndex = 42;
@@ -258,7 +266,7 @@
             // mqAddr_label
             // 
             this.mqAddr_label.AutoSize = true;
-            this.mqAddr_label.Location = new System.Drawing.Point(289, 102);
+            this.mqAddr_label.Location = new System.Drawing.Point(289, 130);
             this.mqAddr_label.Name = "mqAddr_label";
             this.mqAddr_label.Size = new System.Drawing.Size(53, 12);
             this.mqAddr_label.TabIndex = 43;
@@ -266,7 +274,7 @@
             // 
             // mqAddr_tb
             // 
-            this.mqAddr_tb.Location = new System.Drawing.Point(343, 99);
+            this.mqAddr_tb.Location = new System.Drawing.Point(343, 127);
             this.mqAddr_tb.Name = "mqAddr_tb";
             this.mqAddr_tb.Size = new System.Drawing.Size(119, 21);
             this.mqAddr_tb.TabIndex = 44;
@@ -275,7 +283,7 @@
             // clientCount_label
             // 
             this.clientCount_label.AutoSize = true;
-            this.clientCount_label.Location = new System.Drawing.Point(289, 148);
+            this.clientCount_label.Location = new System.Drawing.Point(443, 26);
             this.clientCount_label.Name = "clientCount_label";
             this.clientCount_label.Size = new System.Drawing.Size(101, 12);
             this.clientCount_label.TabIndex = 45;
@@ -284,16 +292,16 @@
             // clientCount_tb
             // 
             this.clientCount_tb.Enabled = false;
-            this.clientCount_tb.Location = new System.Drawing.Point(396, 144);
+            this.clientCount_tb.Location = new System.Drawing.Point(571, 23);
             this.clientCount_tb.Name = "clientCount_tb";
-            this.clientCount_tb.Size = new System.Drawing.Size(119, 21);
+            this.clientCount_tb.Size = new System.Drawing.Size(145, 21);
             this.clientCount_tb.TabIndex = 46;
             this.clientCount_tb.Text = "0";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(655, 66);
+            this.label5.Location = new System.Drawing.Point(655, 94);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
             this.label5.TabIndex = 47;
@@ -301,7 +309,7 @@
             // 
             // queueCount_tb
             // 
-            this.queueCount_tb.Location = new System.Drawing.Point(715, 61);
+            this.queueCount_tb.Location = new System.Drawing.Point(715, 89);
             this.queueCount_tb.Name = "queueCount_tb";
             this.queueCount_tb.Size = new System.Drawing.Size(100, 21);
             this.queueCount_tb.TabIndex = 48;
@@ -310,7 +318,7 @@
             // location_port
             // 
             this.location_port.AutoSize = true;
-            this.location_port.Location = new System.Drawing.Point(478, 101);
+            this.location_port.Location = new System.Drawing.Point(478, 129);
             this.location_port.Name = "location_port";
             this.location_port.Size = new System.Drawing.Size(53, 12);
             this.location_port.TabIndex = 51;
@@ -318,7 +326,7 @@
             // 
             // location_portVal
             // 
-            this.location_portVal.Location = new System.Drawing.Point(537, 99);
+            this.location_portVal.Location = new System.Drawing.Point(537, 127);
             this.location_portVal.Name = "location_portVal";
             this.location_portVal.Size = new System.Drawing.Size(100, 21);
             this.location_portVal.TabIndex = 52;
@@ -327,7 +335,7 @@
             // location_username
             // 
             this.location_username.AutoSize = true;
-            this.location_username.Location = new System.Drawing.Point(655, 101);
+            this.location_username.Location = new System.Drawing.Point(655, 129);
             this.location_username.Name = "location_username";
             this.location_username.Size = new System.Drawing.Size(53, 12);
             this.location_username.TabIndex = 53;
@@ -335,7 +343,7 @@
             // 
             // location_usernameVal
             // 
-            this.location_usernameVal.Location = new System.Drawing.Point(715, 98);
+            this.location_usernameVal.Location = new System.Drawing.Point(715, 126);
             this.location_usernameVal.Name = "location_usernameVal";
             this.location_usernameVal.Size = new System.Drawing.Size(100, 21);
             this.location_usernameVal.TabIndex = 54;
@@ -344,7 +352,7 @@
             // location_pwd
             // 
             this.location_pwd.AutoSize = true;
-            this.location_pwd.Location = new System.Drawing.Point(839, 102);
+            this.location_pwd.Location = new System.Drawing.Point(839, 130);
             this.location_pwd.Name = "location_pwd";
             this.location_pwd.Size = new System.Drawing.Size(41, 12);
             this.location_pwd.TabIndex = 55;
@@ -352,7 +360,7 @@
             // 
             // location_pwdVal
             // 
-            this.location_pwdVal.Location = new System.Drawing.Point(886, 98);
+            this.location_pwdVal.Location = new System.Drawing.Point(886, 126);
             this.location_pwdVal.Name = "location_pwdVal";
             this.location_pwdVal.PasswordChar = '*';
             this.location_pwdVal.Size = new System.Drawing.Size(100, 21);
@@ -361,7 +369,7 @@
             // 
             // alarm_pwd
             // 
-            this.alarm_pwd.Location = new System.Drawing.Point(886, 272);
+            this.alarm_pwd.Location = new System.Drawing.Point(886, 290);
             this.alarm_pwd.Name = "alarm_pwd";
             this.alarm_pwd.PasswordChar = '*';
             this.alarm_pwd.Size = new System.Drawing.Size(100, 21);
@@ -371,7 +379,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(839, 276);
+            this.label3.Location = new System.Drawing.Point(839, 294);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 72;
@@ -379,7 +387,7 @@
             // 
             // alarm_username
             // 
-            this.alarm_username.Location = new System.Drawing.Point(715, 272);
+            this.alarm_username.Location = new System.Drawing.Point(715, 290);
             this.alarm_username.Name = "alarm_username";
             this.alarm_username.Size = new System.Drawing.Size(100, 21);
             this.alarm_username.TabIndex = 71;
@@ -388,7 +396,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(655, 275);
+            this.label8.Location = new System.Drawing.Point(655, 293);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 70;
@@ -396,7 +404,7 @@
             // 
             // alarmPort
             // 
-            this.alarmPort.Location = new System.Drawing.Point(537, 273);
+            this.alarmPort.Location = new System.Drawing.Point(537, 291);
             this.alarmPort.Name = "alarmPort";
             this.alarmPort.Size = new System.Drawing.Size(100, 21);
             this.alarmPort.TabIndex = 69;
@@ -405,7 +413,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(478, 275);
+            this.label9.Location = new System.Drawing.Point(478, 293);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 68;
@@ -413,7 +421,7 @@
             // 
             // alarm_queueCount
             // 
-            this.alarm_queueCount.Location = new System.Drawing.Point(715, 235);
+            this.alarm_queueCount.Location = new System.Drawing.Point(715, 253);
             this.alarm_queueCount.Name = "alarm_queueCount";
             this.alarm_queueCount.Size = new System.Drawing.Size(100, 21);
             this.alarm_queueCount.TabIndex = 67;
@@ -422,7 +430,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(655, 240);
+            this.label10.Location = new System.Drawing.Point(655, 258);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 66;
@@ -430,7 +438,7 @@
             // 
             // alarmAddr
             // 
-            this.alarmAddr.Location = new System.Drawing.Point(343, 273);
+            this.alarmAddr.Location = new System.Drawing.Point(343, 291);
             this.alarmAddr.Name = "alarmAddr";
             this.alarmAddr.Size = new System.Drawing.Size(119, 21);
             this.alarmAddr.TabIndex = 63;
@@ -439,7 +447,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(289, 276);
+            this.label12.Location = new System.Drawing.Point(289, 285);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 12);
             this.label12.TabIndex = 62;
@@ -447,7 +455,7 @@
             // 
             // alarm_channelCount
             // 
-            this.alarm_channelCount.Location = new System.Drawing.Point(537, 235);
+            this.alarm_channelCount.Location = new System.Drawing.Point(537, 253);
             this.alarm_channelCount.Name = "alarm_channelCount";
             this.alarm_channelCount.Size = new System.Drawing.Size(100, 21);
             this.alarm_channelCount.TabIndex = 61;
@@ -456,7 +464,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(478, 238);
+            this.label13.Location = new System.Drawing.Point(478, 256);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 12);
             this.label13.TabIndex = 60;
@@ -464,7 +472,7 @@
             // 
             // alarm_connCount
             // 
-            this.alarm_connCount.Location = new System.Drawing.Point(343, 235);
+            this.alarm_connCount.Location = new System.Drawing.Point(343, 253);
             this.alarm_connCount.Name = "alarm_connCount";
             this.alarm_connCount.Size = new System.Drawing.Size(119, 21);
             this.alarm_connCount.TabIndex = 59;
@@ -473,7 +481,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(289, 238);
+            this.label14.Location = new System.Drawing.Point(289, 256);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(53, 12);
             this.label14.TabIndex = 58;
@@ -482,7 +490,7 @@
             // alarm_count
             // 
             this.alarm_count.AutoSize = true;
-            this.alarm_count.Location = new System.Drawing.Point(839, 235);
+            this.alarm_count.Location = new System.Drawing.Point(839, 253);
             this.alarm_count.Name = "alarm_count";
             this.alarm_count.Size = new System.Drawing.Size(95, 12);
             this.alarm_count.TabIndex = 57;
@@ -490,21 +498,92 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(270, 35);
+            this.groupBox3.Controls.Add(this.no_push_location_rb);
+            this.groupBox3.Controls.Add(this.yes_push_location_rb);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.pubMsgCount);
+            this.groupBox3.Controls.Add(this.clientCount_label);
+            this.groupBox3.Controls.Add(this.clientCount_tb);
+            this.groupBox3.Location = new System.Drawing.Point(270, 27);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(730, 145);
+            this.groupBox3.Size = new System.Drawing.Size(730, 144);
             this.groupBox3.TabIndex = 74;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "位置消息mq配置";
             // 
             // groupBox4
             // 
-            this.groupBox4.Location = new System.Drawing.Point(270, 196);
+            this.groupBox4.Controls.Add(this.no_push_alarm_rb);
+            this.groupBox4.Controls.Add(this.yes_push_alarm_rb);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Location = new System.Drawing.Point(270, 188);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(730, 119);
+            this.groupBox4.Size = new System.Drawing.Size(730, 134);
             this.groupBox4.TabIndex = 75;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "报警消息mq配置";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 31);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 47;
+            this.label6.Text = "是否推送：";
+            // 
+            // yes_push_location_rb
+            // 
+            this.yes_push_location_rb.AutoSize = true;
+            this.yes_push_location_rb.Checked = true;
+            this.yes_push_location_rb.Location = new System.Drawing.Point(102, 29);
+            this.yes_push_location_rb.Name = "yes_push_location_rb";
+            this.yes_push_location_rb.Size = new System.Drawing.Size(35, 16);
+            this.yes_push_location_rb.TabIndex = 48;
+            this.yes_push_location_rb.TabStop = true;
+            this.yes_push_location_rb.Text = "是";
+            this.yes_push_location_rb.UseVisualStyleBackColor = true;
+            // 
+            // no_push_location_rb
+            // 
+            this.no_push_location_rb.AutoSize = true;
+            this.no_push_location_rb.Location = new System.Drawing.Point(157, 29);
+            this.no_push_location_rb.Name = "no_push_location_rb";
+            this.no_push_location_rb.Size = new System.Drawing.Size(35, 16);
+            this.no_push_location_rb.TabIndex = 49;
+            this.no_push_location_rb.Text = "否";
+            this.no_push_location_rb.UseVisualStyleBackColor = true;
+            // 
+            // no_push_alarm_rb
+            // 
+            this.no_push_alarm_rb.AutoSize = true;
+            this.no_push_alarm_rb.Location = new System.Drawing.Point(157, 30);
+            this.no_push_alarm_rb.Name = "no_push_alarm_rb";
+            this.no_push_alarm_rb.Size = new System.Drawing.Size(35, 16);
+            this.no_push_alarm_rb.TabIndex = 52;
+            this.no_push_alarm_rb.Text = "否";
+            this.no_push_alarm_rb.UseVisualStyleBackColor = true;
+            // 
+            // yes_push_alarm_rb
+            // 
+            this.yes_push_alarm_rb.AutoSize = true;
+            this.yes_push_alarm_rb.Checked = true;
+            this.yes_push_alarm_rb.Location = new System.Drawing.Point(102, 30);
+            this.yes_push_alarm_rb.Name = "yes_push_alarm_rb";
+            this.yes_push_alarm_rb.Size = new System.Drawing.Size(35, 16);
+            this.yes_push_alarm_rb.TabIndex = 51;
+            this.yes_push_alarm_rb.TabStop = true;
+            this.yes_push_alarm_rb.Text = "是";
+            this.yes_push_alarm_rb.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(19, 32);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 50;
+            this.label7.Text = "是否推送：";
             // 
             // FServer
             // 
@@ -519,15 +598,12 @@
             this.Controls.Add(this.location_port);
             this.Controls.Add(this.queueCount_tb);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.clientCount_tb);
-            this.Controls.Add(this.clientCount_label);
             this.Controls.Add(this.mqAddr_tb);
             this.Controls.Add(this.mqAddr_label);
             this.Controls.Add(this.channelCount_tb);
             this.Controls.Add(this.channelCountlabel);
             this.Controls.Add(this.connCount);
             this.Controls.Add(this.connCountlabel);
-            this.Controls.Add(this.pubMsgCount);
             this.Controls.Add(this.alarm_pwd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.alarm_username);
@@ -558,6 +634,10 @@
             this.Load += new System.EventHandler(this.FServer_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -612,6 +692,12 @@
         private System.Windows.Forms.Label alarm_count;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.RadioButton no_push_location_rb;
+        private System.Windows.Forms.RadioButton yes_push_location_rb;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RadioButton no_push_alarm_rb;
+        private System.Windows.Forms.RadioButton yes_push_alarm_rb;
+        private System.Windows.Forms.Label label7;
     }
 }
 

@@ -31,7 +31,8 @@ namespace BSP_Sender
         private ServerConfig serverConfig = new ServerConfig();
 
         public static volatile int clientCount = 0;//客户端在线数量
-        public static object locker = new object();//添加一个对象作为锁
+        public static object locker = new object();//添加一个对象作为锁，位置消息与报警消息推送
+        public static object cclocker = new object();//添加一个对象作为锁,统计客户端连接数
 
         public int locationMsgCount = 0;//定位消息，发送到消息队列的消息条数
         public int alarmMsgCount = 0;//报警消息，发送到消息队列的消息条数
@@ -102,22 +103,31 @@ namespace BSP_Sender
 
             btnStartService.Enabled = false;
             btnExit.Enabled = true;
+            yes_push_location_rb.Enabled = false;
+            no_push_location_rb.Enabled = false;
+            yes_push_alarm_rb.Enabled = false;
+            no_push_alarm_rb.Enabled = false;
 
             //定位信息
-            //设置ConnectionFactory属性
-            locationFactory = setConnectionFactory(mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(),60,true);
-            //启动好服务即将相应的connection,channel,queue创建好
-            MQAttribute mqAttr = createMqConnChannelQueue(LOCATION_QUEUE_NAME,locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
-            locationConnList = mqAttr.connectionList;
-            locationChannelList = mqAttr.channelList;
+            if (yes_push_location_rb.Checked)
+            {
+                //设置ConnectionFactory属性
+                locationFactory = setConnectionFactory(mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(), 60, true);
+                //启动好服务即将相应的connection,channel,queue创建好
+                MQAttribute mqAttr = createMqConnChannelQueue(LOCATION_QUEUE_NAME, locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
+                locationConnList = mqAttr.connectionList;
+                locationChannelList = mqAttr.channelList;
+            }
             //报警信息
-            //设置ConnectionFactory属性
-            alarmFactory = setConnectionFactory(alarmAddr.Text.Trim(), Int32.Parse(alarmPort.Text.Trim()), alarm_username.Text.Trim(), alarm_pwd.Text.Trim(), 60, true);
-            //启动好服务即将相应的connection,channel,queue创建好
-            MQAttribute mqAttr_alarm = createMqConnChannelQueue(ALARM_QUEUE_NAME, alarmFactory, Int32.Parse(alarm_queueCount.Text.Trim()), Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()));
-            alarmConnList = mqAttr_alarm.connectionList;
-            alarmChannelList = mqAttr_alarm.channelList;
-
+            if (yes_push_alarm_rb.Checked)
+            {
+                //设置ConnectionFactory属性
+                alarmFactory = setConnectionFactory(alarmAddr.Text.Trim(), Int32.Parse(alarmPort.Text.Trim()), alarm_username.Text.Trim(), alarm_pwd.Text.Trim(), 60, true);
+                //启动好服务即将相应的connection,channel,queue创建好
+                MQAttribute mqAttr_alarm = createMqConnChannelQueue(ALARM_QUEUE_NAME, alarmFactory, Int32.Parse(alarm_queueCount.Text.Trim()), Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()));
+                alarmConnList = mqAttr_alarm.connectionList;
+                alarmChannelList = mqAttr_alarm.channelList;
+            }
             //所有文本框只读
             textBoxReadOnly();
             ipBox.ReadOnly = true;
@@ -221,19 +231,23 @@ namespace BSP_Sender
             //只有位置上报信息才往rabbitmq里面扔，过滤掉心跳包
             if (ExplainUtils.msg_id_terminal_location_info_upload == requestInfo.Body.msgHeader.msgId)
             {
-                lock (locker)
+                if (yes_push_location_rb.Checked)
                 {
-                    //位置上报信息
-                    rabbitMqPublish(session, requestInfo, generateCountType[0], Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()), Int32.Parse(queueCount_tb.Text.Trim()), locationConnList, locationChannelList, LOCATION_QUEUE_NAME);
-                }
-                string stralc = requestInfo.Body.locationInfo.alc;
-                int alc = Convert.ToInt32(stralc, 2);
-                if (alc > 0)
-                {
-                    //报警信息
                     lock (locker)
                     {
-                        rabbitMqPublish(session, requestInfo, generateCountType[1], Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()), Int32.Parse(alarm_queueCount.Text.Trim()), alarmConnList, alarmChannelList, ALARM_QUEUE_NAME);
+                        //位置上报信息
+                        rabbitMqPublish(session, requestInfo, generateCountType[0], Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()), Int32.Parse(queueCount_tb.Text.Trim()), locationConnList, locationChannelList, LOCATION_QUEUE_NAME);
+                    }
+                }
+                if (yes_push_alarm_rb.Checked)
+                {
+                    if (Convert.ToInt32(requestInfo.Body.locationInfo.alc, 2) > 0)
+                    {
+                        //报警信息
+                        lock (locker)
+                        {
+                            rabbitMqPublish(session, requestInfo, generateCountType[1], Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()), Int32.Parse(alarm_queueCount.Text.Trim()), alarmConnList, alarmChannelList, ALARM_QUEUE_NAME);
+                        }
                     }
                 }
             }
@@ -327,7 +341,7 @@ namespace BSP_Sender
             session.Logger.Info(GetCurrentTime() + "\r\n客户端【" + session.RemoteEndPoint + "】已经中断连接，连接数：" + clientCount.ToString() + ",断开原因：" + value + "\r\n");
             session.Close();
             //锁
-            lock (locker)
+            lock (cclocker)
             {
                 clientCount--;
                 clientCount_tb.Text = clientCount.ToString();
@@ -341,7 +355,7 @@ namespace BSP_Sender
         void protocolServer_NewSessionConnected(HLProtocolSession session)
         {
             //锁
-            lock (locker)   
+            lock (cclocker)   
             {
                 clientCount++;
                 clientCount_tb.Text = clientCount.ToString();
