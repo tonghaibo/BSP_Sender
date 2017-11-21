@@ -112,9 +112,9 @@ namespace BSP_Sender
             if (yes_push_location_rb.Checked)
             {
                 //设置ConnectionFactory属性
-                locationFactory = setConnectionFactory(mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(), 60, true);
+                locationFactory = setConnectionFactory(generateCountType[0],mqAddr_tb.Text.Trim(), Int32.Parse(location_portVal.Text.Trim()), location_usernameVal.Text.Trim(), location_pwdVal.Text.Trim(), 60, true);
                 //启动好服务即将相应的connection,channel,queue创建好
-                MQAttribute mqAttr = createMqConnChannelQueue(LOCATION_QUEUE_NAME, locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
+                MQAttribute mqAttr = createMqConnChannelQueue(generateCountType[0], LOCATION_QUEUE_NAME, locationFactory, Int32.Parse(queueCount_tb.Text.Trim()), Int32.Parse(connCount.Text.Trim()), Int32.Parse(channelCount_tb.Text.Trim()));
                 locationConnList = mqAttr.connectionList;
                 locationChannelList = mqAttr.channelList;
             }
@@ -122,9 +122,9 @@ namespace BSP_Sender
             if (yes_push_alarm_rb.Checked)
             {
                 //设置ConnectionFactory属性
-                alarmFactory = setConnectionFactory(alarmAddr.Text.Trim(), Int32.Parse(alarmPort.Text.Trim()), alarm_username.Text.Trim(), alarm_pwd.Text.Trim(), 60, true);
+                alarmFactory = setConnectionFactory(generateCountType[1],alarmAddr.Text.Trim(), Int32.Parse(alarmPort.Text.Trim()), alarm_username.Text.Trim(), alarm_pwd.Text.Trim(), 60, true);
                 //启动好服务即将相应的connection,channel,queue创建好
-                MQAttribute mqAttr_alarm = createMqConnChannelQueue(ALARM_QUEUE_NAME, alarmFactory, Int32.Parse(alarm_queueCount.Text.Trim()), Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()));
+                MQAttribute mqAttr_alarm = createMqConnChannelQueue(generateCountType[1], ALARM_QUEUE_NAME, alarmFactory, Int32.Parse(alarm_queueCount.Text.Trim()), Int32.Parse(alarm_connCount.Text.Trim()), Int32.Parse(alarm_channelCount.Text.Trim()));
                 alarmConnList = mqAttr_alarm.connectionList;
                 alarmChannelList = mqAttr_alarm.channelList;
             }
@@ -137,20 +137,21 @@ namespace BSP_Sender
         /// <summary>
         /// 创建connection,channel,queue
         /// </summary>
+        /// <param name="methodType">方法分类，判断是定位还是报警消息</param>
         /// <param name="queueName">消息队列名</param>
         /// <param name="factory">连接工厂</param>
         /// <param name="queueCount">队列数</param>
         /// <param name="connCount">连接数</param>
         /// <param name="channleCount">通道数</param>
         /// <returns></returns>
-        public MQAttribute createMqConnChannelQueue(string queueName,ConnectionFactory factory,int queueCount,int connCount,int channleCount)
+        public MQAttribute createMqConnChannelQueue(string methodType, string queueName,ConnectionFactory factory,int queueCount,int connCount,int channleCount)
         {
             List<IConnection> connList = new List<IConnection>();
             Dictionary<IConnection, List<IModel>> channelList = new Dictionary<IConnection, List<IModel>>();
             IConnection connection;
             IModel channel;
             List<IModel> channels;
-            for (int queueNum = 1; queueNum <= queueCount; queueNum++)
+            try
             {
                 //最多只允许创建connCount个socket连接
                 for (int linkNum = 0; linkNum < connCount; linkNum++)
@@ -162,16 +163,24 @@ namespace BSP_Sender
                     for (int channelNum = 0; channelNum < channleCount; channelNum++)
                     {
                         channel = connection.CreateModel();//channel中包含几乎所有的API来供我们操作queue
-                        //声明queue
-                        channel.QueueDeclare(queue: queueName + queueNum,//队列名
-                                            durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
-                                            exclusive: false,//排他性
-                                            autoDelete: false,//一旦客户端连接断开则自动删除queue
-                                            arguments: null);//如果安装了队列优先级插件则可以设置优先级
-                        channels.Add(channel);
+                        for (int queueNum = 1; queueNum <= queueCount; queueNum++)
+                        {
+                            //声明queue
+                            channel.QueueDeclare(queue: queueName + queueNum,//队列名
+                                                durable: true,//是否持久化,在RabbitMQ服务重启的情况下，也不会丢失消息
+                                                exclusive: false,//排他性
+                                                autoDelete: false,//一旦客户端连接断开则自动删除queue
+                                                arguments: null);//如果安装了队列优先级插件则可以设置优先级
+                            channels.Add(channel);
+                        }
                     }
                     channelList.Add(connection, channels);
                 }
+            }
+            catch (Exception e)
+            {
+                connMsg.AppendText("---->>>【" + methodType + "】创建conn/channel/queue失败，" + e.Message + "\r\n");
+                LogHelper.WriteLog(typeof(FServer), "\r\n【" + methodType + "】创建conn/channel/queue失败，" + e.Message + "\r\n");
             }
             MQAttribute mqAttr = new MQAttribute(connList,channelList);
             return mqAttr;
@@ -180,6 +189,7 @@ namespace BSP_Sender
         /// <summary>
         /// 设置ConnectionFactory对象实例属性
         /// </summary>
+        /// <param name="methodType">方法分类，判断是定位还是报警消息</param>
         /// <param name="hostName">主机名</param>
         /// <param name="port">端口号</param>
         /// <param name="username">mq用户名</param>
@@ -187,15 +197,23 @@ namespace BSP_Sender
         /// <param name="reqHeartBeat">请求心跳</param>
         /// <param name="autoRecoveryEnabled">是否自动恢复重连</param>
         /// <returns></returns>
-        public ConnectionFactory setConnectionFactory(string hostName,int port,string username,string passwd,ushort reqHeartBeat,bool autoRecoveryEnabled)
+        public ConnectionFactory setConnectionFactory(string methodType,string hostName,int port,string username,string passwd,ushort reqHeartBeat,bool autoRecoveryEnabled)
         {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.HostName = hostName;
-            factory.Port = port;
-            factory.UserName = username;
-            factory.Password = passwd;
-            factory.RequestedHeartbeat = reqHeartBeat;
-            factory.AutomaticRecoveryEnabled = autoRecoveryEnabled;   //设置端口后自动恢复连接属性即可
+            try
+            {
+                factory.HostName = hostName;
+                factory.Port = port;
+                factory.UserName = username;
+                factory.Password = passwd;
+                factory.RequestedHeartbeat = reqHeartBeat;
+                factory.AutomaticRecoveryEnabled = autoRecoveryEnabled;   //设置端口后自动恢复连接属性即可
+            }
+            catch (Exception e)
+            {
+                connMsg.AppendText("---->>>【"+ methodType +"】创建ConnectionFactory失败，"+ e.Message + "\r\n");
+                LogHelper.WriteLog(typeof(FServer), "\r\n【" + methodType + "】创建ConnectionFactory失败，" + e.Message + "\r\n");
+            }
             return factory;
         }
 
@@ -377,33 +395,49 @@ namespace BSP_Sender
         //关闭channel
         public void closeChannel(Dictionary<IConnection, List<IModel>> channelList)
         {
-            if (null != channelList)
+            try
             {
-                foreach (List<IModel> channels in channelList.Values)
+                if (null != channelList && channelList.Count > 0)
                 {
-                    foreach (IModel channel in channels)
+                    foreach (List<IModel> channels in channelList.Values)
                     {
-                        if (null != channel)
+                        foreach (IModel channel in channels)
                         {
-                            channel.Close();
+                            if (null != channel)
+                            {
+                                channel.Close();
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                connMsg.AppendText("---->>>关闭channel失败，" + e.Message + "\r\n");
+                new HLProtocolSession().Logger.Error("\r\n关闭channel失败，" + e.Message + "\r\n");
             }
         }
 
         //关闭connection
         public void closeConnection(List<IConnection> connectionList)
         {
-            if (null != connectionList)
+            try
             {
-                foreach (IConnection connection in connectionList)
+                if (null != connectionList && connectionList.Count > 0)
                 {
-                    if (null != connection)
+                    foreach (IConnection connection in connectionList)
                     {
-                        connection.Close();
+                        if (null != connection)
+                        {
+                            connection.Close();
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                connMsg.AppendText("---->>>关闭connection失败，" + e.Message + "\r\n");
+                new HLProtocolSession().Logger.Error("\r\n关闭connection失败，" + e.Message + "\r\n");
             }
         }
 
@@ -468,6 +502,7 @@ namespace BSP_Sender
         //关闭服务端
         private void btnExit_Click(object sender, EventArgs e)
         {
+            btnExit.Enabled = true;
             closeChanConn();
             //btnStartService.Enabled = true;
             //btnExit.Enabled = false;
