@@ -425,7 +425,7 @@
             this.alarm_queueCount.Name = "alarm_queueCount";
             this.alarm_queueCount.Size = new System.Drawing.Size(100, 21);
             this.alarm_queueCount.TabIndex = 67;
-            this.alarm_queueCount.Text = "10";
+            this.alarm_queueCount.Text = "5";
             // 
             // label10
             // 
@@ -459,7 +459,7 @@
             this.alarm_channelCount.Name = "alarm_channelCount";
             this.alarm_channelCount.Size = new System.Drawing.Size(100, 21);
             this.alarm_channelCount.TabIndex = 61;
-            this.alarm_channelCount.Text = "10";
+            this.alarm_channelCount.Text = "5";
             // 
             // label13
             // 
@@ -476,7 +476,7 @@
             this.alarm_connCount.Name = "alarm_connCount";
             this.alarm_connCount.Size = new System.Drawing.Size(119, 21);
             this.alarm_connCount.TabIndex = 59;
-            this.alarm_connCount.Text = "10";
+            this.alarm_connCount.Text = "5";
             // 
             // label14
             // 

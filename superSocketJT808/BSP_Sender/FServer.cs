@@ -84,7 +84,6 @@ namespace BSP_Sender
                 return;
             }
 
-
             //注册连接事件
             protocolServer.NewSessionConnected += protocolServer_NewSessionConnected;
             //注册请求事件
@@ -100,13 +99,8 @@ namespace BSP_Sender
 
             connMsg.AppendText("---->>>服务器已经启动,开始监听客户端传来的信息!" + "\r\n");
 
-
             btnStartService.Enabled = false;
             btnExit.Enabled = true;
-            yes_push_location_rb.Enabled = false;
-            no_push_location_rb.Enabled = false;
-            yes_push_alarm_rb.Enabled = false;
-            no_push_alarm_rb.Enabled = false;
 
             //定位信息
             if (yes_push_location_rb.Checked)
@@ -128,10 +122,11 @@ namespace BSP_Sender
                 alarmConnList = mqAttr_alarm.connectionList;
                 alarmChannelList = mqAttr_alarm.channelList;
             }
-            //所有文本框只读
-            textBoxReadOnly();
-            ipBox.ReadOnly = true;
-            portBox.ReadOnly = true;
+
+            connMsg.AppendText("---->>>消息队列相关信息创建完毕!" + "\r\n");
+            //所有可编辑控件只读
+            controllReadOnly();
+            
         }
 
         /// <summary>
@@ -218,8 +213,14 @@ namespace BSP_Sender
         }
 
         //文本框只读
-        public void textBoxReadOnly()
+        public void controllReadOnly()
         {
+            ipBox.ReadOnly = true;
+            portBox.ReadOnly = true;
+            yes_push_location_rb.Enabled = false;
+            no_push_location_rb.Enabled = false;
+            yes_push_alarm_rb.Enabled = false;
+            no_push_alarm_rb.Enabled = false;
             foreach (Control control in this.Controls)
             {
                 if (control is TextBox)
@@ -227,6 +228,12 @@ namespace BSP_Sender
                     (control as TextBox).ReadOnly = true;
                 }
             }
+            queueCount_tb.ReadOnly = true;
+            location_portVal.ReadOnly = true;
+            location_usernameVal.ReadOnly = true;
+            alarm_queueCount.ReadOnly = true;
+            alarmPort.ReadOnly = true;
+            alarm_username.ReadOnly = true;
         }
 
         /// <summary>
